@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace FriedFly {
-    public class IAAction : MonoBehaviour {
+    [CreateAssetMenu(fileName = "newAction", menuName = "IAUtility/Action")]
+    public class IAAction : ScriptableObject {
         public List<IAScorer> iAScorers = new List<IAScorer>();
 
         void Start() {

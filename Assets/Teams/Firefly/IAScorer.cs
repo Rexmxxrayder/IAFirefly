@@ -2,24 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IAScorer : MonoBehaviour
-{
-    public BlackBoard.ScoreType scorer;
-    public float max;
-    public float min;
-    BlackBoard blackBoard;
+namespace FriedFly {
+    [System.Serializable]
+    public class IAScorer {
+        public AnimationCurve animationCurve;
+        public BlackBoard.ScoreType scorer;
+        public float valueMax;
+        public float valueMin;
+        public float scoreMax;
+        public float scoreMin;
+        BlackBoard blackBoard;
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
-    public float Compute() {
-        return 0;
+        public float Compute() {
+            float vall = blackBoard.scores[scorer];
+            float normalizedVal = Mathf.InverseLerp(valueMin, valueMax, vall);
+            return animationCurve.Evaluate(normalizedVal);
+        }
     }
 }
