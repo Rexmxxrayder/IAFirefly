@@ -6,15 +6,24 @@ using DoNotModify;
 namespace FriedFly {
     public class FireflyController : BaseSpaceShipController {
         public List<IAAction> iaActions = new List<IAAction>();
-
+        float speed = 0;
+        float orientation = 0;
+        bool mustShockwave = false;
+        bool mustLandMine = false;
+        bool mustShoot = false;
+        public delegate void MyDelegate(SpaceShipView spaceship, GameData data);
+        private MyDelegate ValueUpdater;
         public override void Initialize(SpaceShipView spaceship, GameData data) {
-
+            InitializeValueUpdater();
         }
-
         public override InputData UpdateInput(SpaceShipView spaceship, GameData data) {
+            speed = 0;
+            orientation = 0;
+            mustShockwave = false;
+            mustLandMine = false;
+            mustShoot = false;
             BestActionToInvoke().onAction.Invoke();
-
-            InputData result = new InputData(1f, 0f, false, false, false);
+            InputData result = new InputData(speed, orientation, mustShoot, mustLandMine, mustShockwave);
 
             SpaceShipView otherSpaceship = data.GetSpaceShipForOwner(1 - spaceship.Owner);
 
@@ -188,6 +197,50 @@ namespace FriedFly {
             Debug.DrawLine(spaceship.Position, target, Color.green);
             Debug.DrawLine(spaceship.Position, spaceship.Position + new Vector2(Mathf.Cos(targetOrient), Mathf.Sin(targetOrient)), Color.white);
         }
+
+        #region VariableUpdater
+        void InitializeValueUpdater() {
+
+        }
+
+        void DISTANCE_TO_SHIP_UPDATER(SpaceShipView spaceship, GameData data) {
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_SHIP] = 
+        }
+        void DISTANCE_TO_NEAR_OPEN_CHECKPOINT_UPDATER(SpaceShipView spaceship, GameData data) {
+
+        }
+        void DISTANCE_TO_NEAR_ASTEROID_UPDATER(SpaceShipView spaceship, GameData data) {
+
+        }
+        void ENERGY_UPDATER(SpaceShipView spaceship, GameData data) {
+
+        }
+        void STUN_UPDATER(SpaceShipView spaceship, GameData data) {
+
+        }
+        void ENNEMY_STUN_UPDATER(SpaceShipView spaceship, GameData data) {
+
+        }
+        void ENNEMY_BEHIND_US_UPDATER(SpaceShipView spaceship, GameData data) {
+
+        }
+        void ENNEMY_IN_FRONT_OF_US_UPDATER(SpaceShipView spaceship, GameData data) {
+
+        }
+        void CHECKPOINT_BEHIND_ENNEMY_UPDATER(SpaceShipView spaceship, GameData data) {
+
+        }
+        void SCORE_HIGHER_UPDATER(SpaceShipView spaceship, GameData data) {
+
+        }
+        void ENNEMY_HIDE_UPDATER(SpaceShipView spaceship, GameData data) {
+
+        }
+        void ENNEMY_NEAR_UPDATER(SpaceShipView spaceship, GameData data) {
+
+        }
+        #endregion
+
     }
 }
 
