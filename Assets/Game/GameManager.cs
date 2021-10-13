@@ -41,11 +41,7 @@ namespace DoNotModify
 		[SerializeField]
 		private DebugControllersSO _debugControllerSO;
 		[SerializeField]
-		private GameObject _mapRoot;
-		[SerializeField]
 		private float _gameDuration = 60.0f;
-		[SerializeField]
-		private float chrono = 0.0f;
 
 		private List<Player> _players = new List<Player>();
 
@@ -53,9 +49,9 @@ namespace DoNotModify
 
 		private GameData _gameData = new GameData();
 
-
 		void Awake()
 		{
+			Time.timeScale = 1.0f;
 			Instance = this;
 			_gameData.timeLeft = _gameDuration;
 			foreach(SpaceShip ship in spaceShips)

@@ -10,10 +10,6 @@ namespace FriedFly {
 		public List<IAAction> iaActions = new List<IAAction>();
 		public override void Initialize(SpaceShipView spaceship, GameData data)
 		{
-			for (int i = 0; i < iaActions.Count; i++) {
-				iaActions[i].LoadTheFunctionEater();
-			}
-
 		}
 
 		public override InputData UpdateInput(SpaceShipView spaceship, GameData data)
@@ -30,8 +26,7 @@ namespace FriedFly {
                     ActionToDo = i;
                 }
             }
-            iaActions[ActionToDo].theFunctionEater();
-
+			iaActions[ActionToDo].onAction.Invoke();
             SpaceShipView otherSpaceship = data.GetSpaceShipForOwner(1 - spaceship.Owner);
             float thrust = 0.5f;
             float targetOrient = 0f;
@@ -64,6 +59,13 @@ namespace FriedFly {
 				}
 			}
 			return nearestAsteroid;
+		}
+
+		public void Shoot() {
+			Debug.Log("Shoot");
+		}
+		public void MoveToNearCheckPoint() {
+			Debug.Log("MoveToNearCheckPoint");
 		}
 	}
 

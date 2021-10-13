@@ -28,12 +28,14 @@ namespace DoNotModify
 		private Animator _animator = null;
 		private List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
 		private CircleCollider2D _collider = null;
+		private AudioSource _capturAudio = null;
 
 		void Awake()
 		{
 			_animator = GetComponentInChildren<Animator>();
 			GetComponentsInChildren<SpriteRenderer>(spriteRenderers);
 			_collider = GetComponentInChildren<CircleCollider2D>();
+			_capturAudio = GetComponent<AudioSource>();
 
 			view = new WayPointView(this);
 			GameManager.Instance.GetGameData().WayPoints.Add(view);
@@ -65,6 +67,7 @@ namespace DoNotModify
 					_owner = spaceShip.Owner;
 					Color shipColor = spaceShip.GetColor();
 					_animator.SetTrigger(ANIM_ON_CHANGE_OWNER);
+					_capturAudio.Play();
 					foreach (SpriteRenderer spriteRenderer in spriteRenderers)
 					{
 						shipColor.a = spriteRenderer.color.a;

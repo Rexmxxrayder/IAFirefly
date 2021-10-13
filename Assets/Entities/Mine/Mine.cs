@@ -31,13 +31,16 @@ namespace DoNotModify
 		private CircleCollider2D _explosionCollider = null;
 		private CircleCollider2D _bulletCollider = null;
 
-		public Material disabledMaterial = null;
+		[SerializeField]
+		private Material disabledMaterial = null;
 		private List<Material> _defaultMaterialList = new List<Material>();
 		private List<MeshRenderer> _meshRendererList = new List<MeshRenderer>();
 
 		private const string ANIMATOR_ON_ACTIVATE = "OnActivate";
 		private Animator _animator = null;
 
+		[SerializeField]
+		private AudioSource activationAudio;
 
 		void Awake()
 		{
@@ -89,6 +92,7 @@ namespace DoNotModify
 				}
 			}
 			_animator.SetTrigger(ANIMATOR_ON_ACTIVATE);
+			activationAudio.Play();
 		}
 
 		public bool IsHitting()
