@@ -61,7 +61,7 @@ namespace FriedFly {
             if (Mathf.Abs(midAngle) > 90f) { midAngle -= 180f; }
             float targetAngle = angleNearestPoint + midAngle;
 
-            Vector2 target = nearestWayPoint.Position + PointOnCircle(targetAngle, nearestWayPoint.Radius + spaceship.Radius / 2f);
+            Vector2 target = nearestWayPoint.Position + PointOnCircle(targetAngle, Mathf.Abs(nearestWayPoint.Radius) + spaceship.Radius / 2f);
             Debug.DrawLine(nearestWayPoint.Position, target, Color.blue);
             Debug.DrawLine(nearestNextWayPoint.Position, nearestWayPoint.Position, Color.grey);
             Debug.DrawLine(spaceship.Position, nearestWayPoint.Position, Color.grey);
