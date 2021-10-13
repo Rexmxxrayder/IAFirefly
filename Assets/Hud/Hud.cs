@@ -8,7 +8,9 @@ namespace DoNotModify
 
 	public class Hud : MonoBehaviour
 	{
-		public RectTransform gameOver;
+		const string GAMEOVER_SUFFIX_TEXT = " wins!";
+
+		public Text gameOver;
 		public Text countdown;
 
 		public Slider slider1;
@@ -20,8 +22,13 @@ namespace DoNotModify
 		public Text playerName1;
 		public Text playerName2;
 
+		private int _lastCountDownValue = int.MaxValue;
+		private AudioSource _timerAudio;
+
 		void Awake()
 		{
+			_timerAudio = GetComponent<AudioSource>();
+
 			gameOver.gameObject.SetActive(false);
 			string playerName1 = GameManager.Instance.GetPlayerName(0);
 			string playerName2 = GameManager.Instance.GetPlayerName(1);
@@ -45,9 +52,20 @@ namespace DoNotModify
 
 			slider1.value = gameData.GetSpaceShipForOwner(0).Energy;
 			slider2.value = gameData.GetSpaceShipForOwner(1).Energy;
-			countdown.text = ((int)gameData.timeLeft).ToString();
+
+			int countdownValue = (int)gameData.timeLeft;
+			if (countdownValue <= 5 && _lastCountDownValue != countdownValue) {
+				_timerAudio.Play();
+			}
+			_lastCountDownValue = countdownValue;
+
+			countdown.text = countdownValue.ToString();
 			if (!gameOver.gameObject.activeSelf && GameManager.Instance.IsGameFinished())
 			{
+				int winner = GameManager.Instance.GetScoreForPlayer(0) > GameManager.Instance.GetScoreForPlayer(1) ? 0 : 1;
+				gameOver.color = winner == 0 ? playerName1.color : playerName2.color;
+				gameOver.text = winner == 0 ? GameManager.Instance.GetPlayerName(0) : GameManager.Instance.GetPlayerName(1);
+				gameOver.text += GAMEOVER_SUFFIX_TEXT;
 				gameOver.gameObject.SetActive(true);
 			}
 		}
