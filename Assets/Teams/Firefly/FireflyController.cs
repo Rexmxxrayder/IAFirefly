@@ -7,13 +7,27 @@ namespace FriedFly {
 
 	public class FireflyController : BaseSpaceShipController
 	{
-		public List<IAAction> iaactions = new List<IAAction>();
+		public List<IAAction> iaActions = new List<IAAction>();
 		public override void Initialize(SpaceShipView spaceship, GameData data)
 		{
 		}
 
 		public override InputData UpdateInput(SpaceShipView spaceship, GameData data)
 		{
+			int ActionToDo = 0;
+			float highestPriority = 0;
+			float finalPriority = 0;
+			for (int i = 0; i < iaActions.Count; i++) {
+				float actionPriority = iaActions[i].Priority();
+				float actionFinalPriority = iaActions[i].finalPriority;
+				if (highestPriority < actionPriority || highestPriority == actionPriority && finalPriority < actionFinalPriority) {
+					highestPriority = actionPriority;
+					finalPriority = actionFinalPriority;
+					ActionToDo = i;
+				}
+			}
+			iaActions[ActionToDo].onAction.Invoke();
+
 			SpaceShipView otherSpaceship = data.GetSpaceShipForOwner(1 - spaceship.Owner);
 			float thrust = 0.1f;
 			float targetOrient;
@@ -103,7 +117,15 @@ namespace FriedFly {
 				return true;
 			}
 			return false;
-		} 
+		}
+		public void Shoot() {
+			Debug.Log("Shoot");
+		}
+		public void MoveToNearCheckPoint() {
+			Debug.Log("MoveToNearCheckPoint");
+		}
 	}
 
 }
+
+	

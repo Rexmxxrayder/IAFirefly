@@ -110,7 +110,7 @@ MonoBehaviour:
   types: 00000000010000000200000003000000
   variables:
   - 0
-  - 5
+  - 1
   - 0
   - 2
-  mustRefresh: 0
+  mustRefresh: 1
