@@ -14,10 +14,11 @@ namespace FriedFly {
         public override InputData UpdateInput(SpaceShipView spaceship, GameData data) {
             BestActionToInvoke().onAction.Invoke();
 
-            SpaceShipView otherSpaceship = data.GetSpaceShipForOwner(1 - spaceship.Owner);
-            //float thrust = 1f;
+            InputData result = new InputData(1f, 0f, false, false, false);
 
-            InputData result = RushPoints(spaceship, data);
+            SpaceShipView otherSpaceship = data.GetSpaceShipForOwner(1 - spaceship.Owner);
+
+            result = RushPoints(spaceship, data, result);
 
             bool needShoot = AimingHelpers.CanHit(spaceship, otherSpaceship.Position, otherSpaceship.Velocity, 0.15f);
             //DebugSpaceShip(spaceship, nearestWayPoint.Position, targetOrient);
@@ -38,7 +39,7 @@ namespace FriedFly {
             return symmertyAngle;
         }
 
-        private InputData RushPoints(SpaceShipView spaceship, GameData data) {
+        private InputData RushPoints(SpaceShipView spaceship, GameData data, InputData inputData) {
             float targetOrient;
             WayPointView nearestWayPoint = GetClosestPoint(spaceship.Position + spaceship.Velocity / 2f, data.WayPoints, spaceship.Owner);
             if (nearestWayPoint == null) {
@@ -46,6 +47,7 @@ namespace FriedFly {
                 Debug.Break();
                 nearestWayPoint = data.WayPoints[0];
             }
+            
 
             WayPointView nearestNextWayPoint = GetClosestPoint(nearestWayPoint.Position, data.WayPoints, spaceship.Owner, nearestWayPoint);
             if (nearestNextWayPoint == null) {
@@ -63,13 +65,12 @@ namespace FriedFly {
             Debug.DrawLine(nearestWayPoint.Position, target, Color.blue);
             Debug.DrawLine(nearestNextWayPoint.Position, nearestWayPoint.Position, Color.grey);
             Debug.DrawLine(spaceship.Position, nearestWayPoint.Position, Color.grey);
-            //targetDirection = target - spaceship.Position;
-            //directionAngle = Atan2(targetDirection);
 
             targetOrient = GoTo(target, spaceship, data);
 
             DebugSpaceShip(spaceship, target, targetOrient);
-            return new InputData(1f, targetOrient, false, false, false);
+            inputData.targetOrientation = targetOrient;
+            return inputData;
         }
 
         #endregion
