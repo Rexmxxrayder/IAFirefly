@@ -7,19 +7,38 @@ namespace FriedFly {
 
 	public class FireflyController : BaseSpaceShipController
 	{
-		public List<IAAction> iaactions = new List<IAAction>();
+		public List<IAAction> iaActions = new List<IAAction>();
 		public override void Initialize(SpaceShipView spaceship, GameData data)
 		{
+			for (int i = 0; i < iaActions.Count; i++) {
+				iaActions[i].LoadTheFunctionEater();
+			}
+
 		}
 
 		public override InputData UpdateInput(SpaceShipView spaceship, GameData data)
 		{
-			SpaceShipView otherSpaceship = data.GetSpaceShipForOwner(1 - spaceship.Owner);
-			Debug.Log("Move");
-			float thrust = 1.0f;
-			float targetOrient = Orientation(spaceship, GetClosestAsteroid(spaceship, data.Asteroids).Position.x + 90.0f);
-			bool needShoot = AimingHelpers.CanHit(spaceship, otherSpaceship.Position, otherSpaceship.Velocity, 0.15f);
-			return new InputData(thrust, targetOrient, needShoot, false, false);
+            int ActionToDo = 0;
+            float highestPriority = 0;
+            float finalPriority = 0;
+            for (int i = 0; i < iaActions.Count; i++) {
+                float actionPriority = iaActions[i].Priority();
+                float actionFinalPriority = iaActions[i].finalPriority;
+                if (highestPriority < actionPriority || highestPriority == actionPriority && finalPriority < actionFinalPriority) {
+                    highestPriority = actionPriority;
+                    finalPriority = actionFinalPriority;
+                    ActionToDo = i;
+                }
+            }
+            iaActions[ActionToDo].theFunctionEater();
+
+            SpaceShipView otherSpaceship = data.GetSpaceShipForOwner(1 - spaceship.Owner);
+            float thrust = 0.5f;
+            float targetOrient = 0f;
+            //float targetOrient = Orientation(spaceship, GetClosestAsteroid(spaceship, data.Asteroids).Position.x + 90.0f);
+            bool needShoot = AimingHelpers.CanHit(spaceship, otherSpaceship.Position, otherSpaceship.Velocity, 0.15f);
+           // return new InputData(thrust, targetOrient, needShoot, false, false);
+            return new InputData(1, 180, false, false, false);
 		}
 
 		public float Speed(float speed)
