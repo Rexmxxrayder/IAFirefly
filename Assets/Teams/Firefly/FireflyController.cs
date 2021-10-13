@@ -27,16 +27,43 @@ namespace FriedFly {
 
         #region Movements
 
-        private float GoTo(Vector2 target, SpaceShipView spaceship, GameData data) {
+        private float GoTo(Vector2 target, SpaceShipView spaceship, GameData data, bool avoidAsteroid = true) {
             Vector2 targetDirection = target - spaceship.Position;
 
             float directionAngle = Atan2(targetDirection);
             float velocityAngle = Atan2(spaceship.Velocity);
-            float symmertyAngle = directionAngle + (directionAngle - velocityAngle);
+            float symmetryAngle = directionAngle + (directionAngle - velocityAngle);
             if (Mathf.Abs(ObtuseAngle(velocityAngle) - ObtuseAngle(directionAngle)) > 90f) {
-                symmertyAngle = directionAngle;
+                symmetryAngle = directionAngle;
             }
-            return symmertyAngle;
+
+            if (!avoidAsteroid) { return symmetryAngle; }
+
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(spaceship.Position, spaceship.Radius, targetDirection, targetDirection.magnitude);
+            if (hits.Length > 0) {
+                for (int i = 0; i < hits.Length; i++) {
+                    if (hits[i].collider.CompareTag("Asteroid")) {
+                        return GoTo(AvoidAsteroid(target, spaceship, data, hits[i].collider.gameObject.GetComponentInParent<Asteroid>()), spaceship, data, false);
+                    }
+                }
+            }
+
+            return symmetryAngle;
+        }
+
+        private Vector2 AvoidAsteroid(Vector2 target, SpaceShipView spaceship, GameData data, Asteroid asteroid) {
+            Vector2 perp = -Vector2.Perpendicular(target - spaceship.Position);
+            Vector2 toTarget = target - spaceship.Position;
+            Vector2 toAsteroid = asteroid.Position - spaceship.Position;
+            Debug.Log(Vector2.SignedAngle(toTarget, toAsteroid));
+            if (Vector2.SignedAngle(toTarget, toAsteroid) < 0f) {
+                perp *= -1;
+            }
+            perp.Normalize();
+            perp *= asteroid.Radius + spaceship.Radius + spaceship.Radius * 0.2f;
+            Vector2 soluce = asteroid.Position + perp;
+            Debug.DrawLine(asteroid.Position, soluce, Color.red);
+            return soluce;
         }
 
         private InputData RushPoints(SpaceShipView spaceship, GameData data, InputData inputData) {
@@ -57,7 +84,6 @@ namespace FriedFly {
             float nextPointAngle = Atan2(nearestNextWayPoint.Position - nearestWayPoint.Position);
             float angleNearestPoint = Atan2(spaceship.Position - nearestWayPoint.Position);
             float midAngle = (ObtuseAngle(nextPointAngle) - ObtuseAngle(angleNearestPoint)) / 2f;
-            Debug.Log(midAngle + " .. " + nextPointAngle + " .. " + angleNearestPoint);
             if (Mathf.Abs(midAngle) > 90f) { midAngle -= 180f; }
             float targetAngle = angleNearestPoint + midAngle;
 

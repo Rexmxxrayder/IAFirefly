@@ -2625,7 +2625,7 @@ MonoBehaviour:
   - {fileID: 352558042}
   - {fileID: 1079645155}
   _debugControllerSO: {fileID: 11400000, guid: f1b8b3b2876be244d9107938012a5207, type: 2}
-  _gameDuration: 1000
+  _gameDuration: 60
 --- !u!1 &2127158556
 GameObject:
   m_ObjectHideFlags: 0
