@@ -21,6 +21,9 @@ namespace FriedFly {
         private LayerMask CheckPointMask = 11;
         private LayerMask asteroidAndCheckPointMask = 1 << 12 & 1 << 11;
         private LayerMask MineMask = 13;
+        private SpaceShipView spaceship;
+        private GameData data;
+
         public override void Initialize(SpaceShipView spaceship, GameData data) {
             InitializeValueUpdater();
             timerTime = spaceship.HitCountdown;
@@ -48,10 +51,12 @@ namespace FriedFly {
 
                 return new InputData(thrust, targetOrient, shoot, dropMine, fireShockwave);
             } else {
-            inputData = new InputData(0f, spaceship.Orientation, false, false, false);
-            BestActionToInvoke().onAction.Invoke();
-            InputData result = inputData;
-            return result;
+                inputData = new InputData(0f, spaceship.Orientation, false, false, false);
+                this.spaceship = spaceship;
+                this.data = data;
+                BestActionToInvoke().onAction.Invoke();
+                InputData result = inputData;
+                return result;
             }
         }
 
@@ -183,7 +188,7 @@ namespace FriedFly {
             inputData.fireShockwave = true;
         }
 
-        public void RushPoints(SpaceShipView spaceship, GameData data) {
+        public void RushPoints() {
             float targetOrient;
             WayPointView nearestWayPoint = GetClosestPoint(spaceship.Position + spaceship.Velocity / 2f, data.WayPoints, spaceship.Owner);
             if (nearestWayPoint == null) {
@@ -221,7 +226,7 @@ namespace FriedFly {
             }
         }
 
-        public void FollowEnemy(SpaceShipView spaceship, GameData data) {
+        public void FollowEnemy() {
             SpaceShipView otherSpaceship = data.GetSpaceShipForOwner(1 - spaceship.Owner);
             inputData.thrust = 1.0f;
             inputData.targetOrientation = GoTo(otherSpaceship.Position, spaceship, data, true);
@@ -232,7 +237,7 @@ namespace FriedFly {
             }
         }
 
-        public void TurretMode(SpaceShipView spaceship, GameData data) {
+        public void TurretMode() {
 
         }
 
