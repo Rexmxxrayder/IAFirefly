@@ -121,7 +121,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    scoreBounds: {x: 0, y: -1000}
+    scoreBounds: {x: 0, y: -2000}
   - scorer: 19
     valueBounds: {x: 10, y: 0}
     animationCurve:

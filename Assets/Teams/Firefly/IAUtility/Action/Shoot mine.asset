@@ -40,9 +40,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    scoreBounds: {x: 0, y: 500}
+    scoreBounds: {x: -500, y: 500}
   - scorer: 14
-    valueBounds: {x: 0, y: 20}
+    valueBounds: {x: 0, y: 1}
     animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -76,5 +76,5 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    scoreBounds: {x: 500, y: -1000}
+    scoreBounds: {x: -500, y: 500}
   finalPriority: 6
