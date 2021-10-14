@@ -313,6 +313,7 @@ namespace FriedFly {
             ValueUpdater += COUNTDOWN_SHOOT_UPDATER;
             ValueUpdater += COUNTDOWN_SHOCKWAVE_UPDATER;
             ValueUpdater += AIMING_ENEMY_TRAJECTORY_UPDATER;
+            ValueUpdater += IS_BULLET_BEHIND_US_UPDATER;
         }
 
         void DISTANCE_TO_SHIP_UPDATER(SpaceShipView spaceship, GameData data) {
@@ -516,6 +517,24 @@ namespace FriedFly {
 
         void COUNTDOWN_SHOCKWAVE_UPDATER(SpaceShipView spaceship, GameData data) {
             BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOCKWAVE] += Time.deltaTime;
+        }
+
+        void IS_BULLET_BEHIND_US_UPDATER(SpaceShipView spaceship, GameData data) {
+            //BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOCKWAVE] += Time.deltaTime;
+            List<BulletView> bullets = data.Bullets;
+            for (int i = 0; i < bullets.Count; i++) {
+                float distance = Vector2.Distance(bullets[i].Position, spaceship.Position);
+                if (distance < 1f) {
+                    float angleToShip = Atan2(spaceship.Position - bullets[i].Position) % 360;
+                    float directionAngle = Atan2(bullets[i].Velocity) % 360;
+                    float deltaAngle = Mathf.Abs((angleToShip - directionAngle) % 360);
+                    if (deltaAngle < 10f) {
+                        BlackBoard.Gino.scores[BlackBoard.ScoreType.IS_BULLET_BEHIND_US] = 1f;
+                        return;
+                    }
+                }
+            }
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.IS_BULLET_BEHIND_US] = 0f;
         }
 
         #endregion
