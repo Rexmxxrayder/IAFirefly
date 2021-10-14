@@ -9,9 +9,10 @@ namespace FriedFly {
         public BlackBoard.ScoreType scorer;
         public Vector2 valueBounds;
         public Vector2 scoreBounds;
+
         public float Compute() {
             float vall = BlackBoard.Gino.scores[scorer];
-            float normalizedVal = Mathf.InverseLerp(valueBounds.x, valueBounds.y, vall);
+            float normalizedVal = Mathf.Clamp(Mathf.InverseLerp(valueBounds.x, valueBounds.y, vall), valueBounds.x, valueBounds.y);
             float normalizedScore = animationCurve.Evaluate(normalizedVal);
             return Mathf.Lerp(scoreBounds.x, scoreBounds.y, normalizedScore);
         }
