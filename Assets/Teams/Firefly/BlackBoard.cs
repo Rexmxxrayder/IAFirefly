@@ -17,7 +17,8 @@ namespace FriedFly {
             CHECKPOINT_BEHIND_ENNEMY,
             SCORE_HIGHER,
             ENNEMY_HIDE,
-            ENNEMY_NEAR
+            ENNEMY_NEAR,
+            ON_CHEKPOINT
         }
 
         public List<ScoreType> types = new List<ScoreType>();

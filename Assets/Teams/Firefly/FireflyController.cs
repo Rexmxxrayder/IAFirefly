@@ -204,7 +204,7 @@ namespace FriedFly {
         }
 
         void DISTANCE_TO_SHIP_UPDATER(SpaceShipView spaceship, GameData data) {
-            BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_SHIP] = 
+           // BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_SHIP] = 
         }
         void DISTANCE_TO_NEAR_OPEN_CHECKPOINT_UPDATER(SpaceShipView spaceship, GameData data) {
 
