@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace FriedFly {
-    public class BlackBoard : MonoBehaviour {
-        public static BlackBoard Gino;
-        public static BlackBoard Gino2;
+    public class BlackBoard2 : MonoBehaviour {
+        public static BlackBoard2 Gino;
         public enum ScoreType {
             DISTANCE_TO_SHIP,
             DISTANCE_TO_NEAR_OPEN_CHECKPOINT,
@@ -34,7 +33,6 @@ namespace FriedFly {
         public float radiusShockwave;
         public float ennemyNear;
         public float radiusCheckPoint;
-        public bool ManualMode;
         private void Awake() {
             Gino = this;
             FillScores();
@@ -62,8 +60,9 @@ namespace FriedFly {
             if (mustRefresh) {
                 mustRefresh = false;
                 ChangeScores();
+                
             }
-                SeeScores();
+            SeeScores();
         }
     }
 }

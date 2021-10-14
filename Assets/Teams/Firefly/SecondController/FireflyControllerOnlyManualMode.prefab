@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 995883328052245445}
   - component: {fileID: 3039252958360588374}
-  - component: {fileID: -3353040817885224264}
-  - component: {fileID: 1903164748920350954}
+  - component: {fileID: 6198017848170931685}
+  - component: {fileID: -1006013098772535216}
   m_Layer: 0
-  m_Name: FireflyController 1
+  m_Name: FireflyControllerOnlyManualMode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,7 +80,7 @@ MonoBehaviour:
       Version: 1.6.4
   gizmoViewMode: 0
   showBehaviorDesignerGizmo: 0
---- !u!114 &-3353040817885224264
+--- !u!114 &6198017848170931685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,13 +89,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7672329417856911656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fc95d37a5569c0458d4737f9cdff68e, type: 3}
+  m_Script: {fileID: 11500000, guid: bfa219a9a12266c4eaad9edb41042913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iaActions:
-  - {fileID: 11400000, guid: 3fd916d17396d6a4fbf0ed953a497082, type: 2}
-  - {fileID: 11400000, guid: 4ea7c00689217e04a84b93d644d139e4, type: 2}
---- !u!114 &1903164748920350954
+  IAAction2s: []
+--- !u!114 &-1006013098772535216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,13 +102,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 7672329417856911656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da13795e196c97f4d91d2a2575506d67, type: 3}
+  m_Script: {fileID: 11500000, guid: bf765fc1ec330f04a9e3a776ff3bf588, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  types: 00000000010000000200000003000000
+  types: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000010000000
   variables:
   - 0
   - 1
   - 0
   - 2
-  mustRefresh: 1
+  seeVariables: []
+  mustRefresh: 0
+  radiusShockwave: 0
+  ennemyNear: 0
+  radiusCheckPoint: 0
+  ManualMode: 0

@@ -107,10 +107,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da13795e196c97f4d91d2a2575506d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  types: 00000000010000000200000003000000
+  types: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000010000000
   variables:
   - 0
   - 1
   - 0
   - 2
+  seeVariables: []
   mustRefresh: 1
+  radiusShockwave: 2.5
+  ennemyNear: 0
+  radiusCheckPoint: 1
+  ManualMode: 0
