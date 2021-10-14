@@ -93,8 +93,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     scorer: 12
-    valueBounds: {x: 0, y: 60}
-    scoreBounds: {x: 0, y: 5000}
+    valueBounds: {x: 60, y: 0}
+    scoreBounds: {x: 50000, y: 0}
   - animationCurve:
       serializedVersion: 2
       m_Curve:
