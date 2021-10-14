@@ -529,8 +529,14 @@ namespace FriedFly {
                     float directionAngle = Atan2(bullets[i].Velocity) % 360;
                     float deltaAngle = Mathf.Abs((angleToShip - directionAngle) % 360);
                     if (deltaAngle < 10f) {
-                        BlackBoard.Gino.scores[BlackBoard.ScoreType.IS_BULLET_BEHIND_US] = 1f;
-                        return;
+                        float orientAngle = (spaceship.Orientation + 180f) % 360;
+                        float youBulletAngle = Atan2(bullets[i].Position - spaceship.Position) % 360;
+                        deltaAngle = Mathf.Abs((orientAngle - youBulletAngle) % 360);
+                        if (deltaAngle > 180f) { deltaAngle -= 360; deltaAngle = Mathf.Abs(deltaAngle); }
+                        if (deltaAngle < 20f) {
+                            BlackBoard.Gino.scores[BlackBoard.ScoreType.IS_BULLET_BEHIND_US] = 1f;
+                            return;
+                        }
                     }
                 }
             }
