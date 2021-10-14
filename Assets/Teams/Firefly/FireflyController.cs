@@ -205,17 +205,17 @@ namespace FriedFly {
 
         public void Shoot(SpaceShipView spaceship, GameData data) {
             inputData.shoot = true;
-            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOOT] = 10f;
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOOT] = 0f;
         }
 
         public void LandMine(SpaceShipView spaceship, GameData data) {
             inputData.dropMine = true;
-            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_MINE] = 10f;
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_MINE] = 0f;
         }
 
         public void Shockwave(SpaceShipView spaceship, GameData data) {
             inputData.fireShockwave = true;
-            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOCKWAVE] = 10f;
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOCKWAVE] = 0f;
         }
 
         public void RushPoints(SpaceShipView spaceship, GameData data) {
@@ -507,15 +507,15 @@ namespace FriedFly {
         }
 
         void COUNTDOWN_MINE_UPDATER(SpaceShipView spaceship, GameData data) {
-            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_MINE] -= Time.deltaTime;
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_MINE] += Time.deltaTime;
         }
 
         void COUNTDOWN_SHOOT_UPDATER(SpaceShipView spaceship, GameData data) {
-            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOOT] -= Time.deltaTime;
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOOT] += Time.deltaTime;
         }
 
         void COUNTDOWN_SHOCKWAVE_UPDATER(SpaceShipView spaceship, GameData data) {
-            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOCKWAVE] -= Time.deltaTime;
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOCKWAVE] += Time.deltaTime;
         }
 
         #endregion
