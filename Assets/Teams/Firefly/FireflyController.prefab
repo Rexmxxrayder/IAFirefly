@@ -102,6 +102,18 @@ MonoBehaviour:
   isStunEnnemy: 0
   hitCount: 0
   hitCountEnnemy: 0
+  asteroidMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  CheckPointMask:
+    serializedVersion: 2
+    m_Bits: 2048
+  asteroidAndCheckPointMask:
+    serializedVersion: 2
+    m_Bits: 6144
+  MineMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1903164748920350954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +133,7 @@ MonoBehaviour:
   - 0
   - 2
   seeVariables: []
-  mustRefresh: 1
+  mustRefresh: 0
   radiusShockwave: 2.5
   ennemyNear: 0
   radiusCheckPoint: 1

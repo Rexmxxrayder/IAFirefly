@@ -43,13 +43,13 @@ namespace FriedFly {
 
         private void Awake() {
             Gino = this;
-            FillScores();
             seeVariables = new float[21];
+            FillScores();
         }
 
         void FillScores() {
-            for (int i = 0; i < variables.Count; i++) {
-                scores.Add(types[i], variables[i]);
+            for (int i = 0; i < seeVariables.Length; i++) {
+                scores.Add(types[i], 0f);
             }
         }
         void ChangeScores() {
