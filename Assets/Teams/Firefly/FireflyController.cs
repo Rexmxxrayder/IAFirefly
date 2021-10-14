@@ -23,6 +23,7 @@ namespace FriedFly {
         private int hitCountEnnemy;
         private LayerMask asteroidMask = 12;
         public LayerMask asteroidAndCheckPointMask = 1 << 12 & 1 << 11;
+        public LayerMask MineMask = 13;
         public override void Initialize(SpaceShipView spaceship, GameData data) {
             InitializeValueUpdater();
             timerTime = spaceship.HitCountdown;
@@ -317,8 +318,8 @@ namespace FriedFly {
         }
         void ENNEMY_HIDE_UPDATER(SpaceShipView spaceship, GameData data) {
             RaycastHit2D hit;
-            Vector2 otherSpaceShip = data.GetSpaceShipForOwner(1 - spaceship.Owner).Position - spaceship.Position;
-            hit = Physics2D.Raycast(spaceship.Position, otherSpaceShip, otherSpaceShip.magnitude, asteroidMask);
+            Vector2 toOtherSpaceShip = data.GetSpaceShipForOwner(1 - spaceship.Owner).Position - spaceship.Position;
+            hit = Physics2D.Raycast(spaceship.Position, toOtherSpaceShip, toOtherSpaceShip.magnitude, asteroidMask);
             if (hit) {
                 BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_HIDE] = 1;
             } else {
@@ -330,15 +331,36 @@ namespace FriedFly {
             BlackBoard.Gino.scores[BlackBoard.ScoreType.TIME_LEFT] = data.timeLeft;
         }
 
-        void MINE_NEAR_UPDATER() {
+        void MINE_NEAR_UPDATER(SpaceShipView spaceship, GameData data) {
+            Collider2D[] hit;
+            hit = Physics2D.OverlapCircleAll(spaceship.Position, BlackBoard.Gino.mineNear, MineMask);
+            if (hit.Length > 0) {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.MINE_NEAR] = 1;
+            }else {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.MINE_NEAR] = 0;
+            }
+        }
+
+
+        void ON_CHEKPOINT_UPDATER(SpaceShipView spaceship, GameData data) {
 
         }
 
-        void MINE_FRONT_UPDATER() {
+        void MINE_FRONT_UPDATER(SpaceShipView spaceship, GameData data) {
+            RaycastHit2D hit;
+            float spaceshipAngle = (spaceship.Orientation + 360) % 360;
+            float x = Mathf.Cos(spaceshipAngle * Mathf.Deg2Rad);
+            float y = Mathf.Sin(spaceshipAngle * Mathf.Deg2Rad);
+            Vector2 front = new Vector2(x, y);
 
+            hit = Physics2D.Raycast(spaceship.Position, front, MineMask);
+            if (hit) {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.MINE_FRONT] = 1;
+            } else {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.MINE_FRONT] = 0;
+            }
         }
         #endregion
-
     }
 }
 
