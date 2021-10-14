@@ -14,115 +14,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onAction: 04000000
   iAScorers:
-  - animationCurve:
+  - scorer: 0
+    valueBounds: {x: 0, y: 10}
+    animationCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: -0.000045776367
+        time: 0
         value: 1
-        inSlope: -0.9999542
-        outSlope: -0.9999542
+        inSlope: -4
+        outSlope: -4
         tangentMode: 34
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1
+        time: 0.25
         value: 0
-        inSlope: -0.9999542
-        outSlope: -0.9999542
-        tangentMode: 34
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1.0032208
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    scorer: 0
-    valueBounds: {x: 0, y: 20}
-    scoreBounds: {x: 500, y: 0}
-  - animationCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: -0.000045776367
-        value: 1
-        inSlope: -0.9999542
-        outSlope: -0.9999542
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: -0.9999542
-        outSlope: -0.9999542
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    scorer: 15
-    valueBounds: {x: 0, y: 20}
-    scoreBounds: {x: 500, y: 0}
-  - animationCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: -0.000045776367
-        value: 1
-        inSlope: -0.9999542
-        outSlope: -0.9999542
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: -0.9999542
-        outSlope: -0.9999542
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    scorer: 5
+    scoreBounds: {x: 0, y: 500}
+  - scorer: 5
     valueBounds: {x: 0, y: 1}
-    scoreBounds: {x: 500, y: -1000}
-  - animationCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: -0.000045776367
-        value: 1
-        inSlope: -0.9999542
-        outSlope: -0.9999542
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: -0.9999542
-        outSlope: -0.9999542
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    scorer: 8
-    valueBounds: {x: 0, y: 1}
-    scoreBounds: {x: 500, y: -1000}
-  - animationCurve:
+    animationCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -146,7 +76,59 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    scorer: 3
+    scoreBounds: {x: 0, y: -500}
+  - scorer: 8
+    valueBounds: {x: 0, y: 1}
+    animationCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    scoreBounds: {x: 0, y: -500}
+  - scorer: 3
     valueBounds: {x: 0.35, y: 1}
+    animationCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
     scoreBounds: {x: 0, y: 100}
-  finalPriority: 4
+  finalPriority: 5
