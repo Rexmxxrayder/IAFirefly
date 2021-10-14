@@ -17,7 +17,8 @@ namespace FriedFly {
             float scorersTotal = 0;
             //Debug.Log("//");
             for (int i = 0; i < iAScorers.Count; i++) {
-                //Debug.Log(iAScorers[i].scorer + " : " + iAScorers[i].Compute());
+                Debug.Log(iAScorers[i].scorer + " : " + iAScorers[i].Compute());
+                //if (iAScorers[i].scorer == BlackBoard.ScoreType.MINE_FRONT) { Debug.Log(iAScorers[i].Compute()); }
                 scorersTotal += iAScorers[i].Compute();
             }
             //Debug.Log("// - " + scorersTotal);

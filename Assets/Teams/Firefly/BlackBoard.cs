@@ -45,6 +45,7 @@ namespace FriedFly {
             Gino = this;
             seeVariables = new float[21];
             FillScores();
+            SeeScores();
         }
 
         void FillScores() {

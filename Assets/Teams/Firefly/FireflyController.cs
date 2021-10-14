@@ -36,8 +36,9 @@ namespace FriedFly {
         public LayerMask MineMask;
 
         public override void Initialize(SpaceShipView spaceship, GameData data) {
-            InitializeValueUpdater();
             InitializeActionInvokable();
+            InitializeValueUpdater();
+            ValueUpdater(spaceship, data);
         }
 
         public override InputData UpdateInput(SpaceShipView spaceship, GameData data) {
@@ -148,14 +149,14 @@ namespace FriedFly {
             for (int i = 0; i < iaActions.Count; i++) {
                 float actionPriority = iaActions[i].Priority();
                 float actionFinalPriority = iaActions[i].finalPriority;
-                Debug.Log("Action Numero " + (i + 1) + " Score : " + actionPriority);
+                Debug.LogWarning("// Action Numero " + (i + 1) + " Score : " + actionPriority);
                 if (highestPriority < actionPriority || highestPriority == actionPriority && finalPriority < actionFinalPriority) {
                     highestPriority = actionPriority;
                     finalPriority = actionFinalPriority;
                     actionToDo = i;
                 }
             }
-            Debug.Log("/-> Action done : " + actionToDo + 1);
+            Debug.LogWarning(" - ///-> Action done : " + (actionToDo + 1));
             return iaActions[actionToDo];
         }
 
@@ -443,7 +444,7 @@ namespace FriedFly {
             hit = Physics2D.OverlapCircleAll(spaceship.Position, BlackBoard.Gino.radiusShockwave / 2f, MineMask);
             if (hit.Length > 0) {
                 BlackBoard.Gino.scores[BlackBoard.ScoreType.MINE_NEAR] = 1;
-            }else {
+            } else {
                 BlackBoard.Gino.scores[BlackBoard.ScoreType.MINE_NEAR] = 0;
             }
         }
