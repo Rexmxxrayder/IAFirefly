@@ -18,7 +18,10 @@ namespace FriedFly {
             SCORE_HIGHER,
             ENNEMY_HIDE,
             ENNEMY_NEAR,
-            ON_CHEKPOINT
+            ON_CHEKPOINT,
+            TIME_LEFT,
+            MINE_FRONT,
+            MINE_NEAR
         }
 
         public List<ScoreType> types = new List<ScoreType>();

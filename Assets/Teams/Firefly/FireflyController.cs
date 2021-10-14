@@ -13,9 +13,20 @@ namespace FriedFly {
         bool mustShoot = false;
         public delegate void MyDelegate(SpaceShipView spaceship, GameData data);
         private MyDelegate ValueUpdater;
-
+        private bool isStun = false;
+        private bool isStunEnnemy = false;
+        private float timerTime;
+        private float timerTimeEnnemy;
+        private float timerValue = 0;
+        private float timerValueEnnemy = 0;
+        private int hitCount;
+        private int hitCountEnnemy;
+        private LayerMask asteroidMask = 12;
+        public LayerMask asteroidAndCheckPointMask = 1 << 12 & 1 << 11;
         public override void Initialize(SpaceShipView spaceship, GameData data) {
             InitializeValueUpdater();
+            timerTime = spaceship.HitCountdown;
+            timerTimeEnnemy = spaceship.HitCountdown;
         }
         public override InputData UpdateInput(SpaceShipView spaceship, GameData data) {
             speed = 1f;
@@ -83,7 +94,7 @@ namespace FriedFly {
                 Debug.Break();
                 nearestWayPoint = data.WayPoints[0];
             }
-            
+
 
             WayPointView nearestNextWayPoint = GetClosestPoint(nearestWayPoint.Position, data.WayPoints, spaceship.Owner, nearestWayPoint);
             if (nearestNextWayPoint == null) {
@@ -189,13 +200,23 @@ namespace FriedFly {
             return false;
         }
 
+        #region ActionFunction
         public void Shoot() {
-            Debug.Log("Shoot");
+            mustShoot = true;
         }
 
         public void MoveToNearCheckPoint() {
             Debug.Log("MoveToNearCheckPoint");
         }
+
+        public void LandMine() {
+            mustLandMine = true;
+        }
+
+        public void Shockwave() {
+            mustShockwave = true;
+        }
+        #endregion
 
         private void DebugSpaceShip(SpaceShipView spaceship, Vector2 target, float targetOrient) {
             targetOrient *= Mathf.Deg2Rad;
@@ -206,11 +227,21 @@ namespace FriedFly {
 
         #region VariableUpdater
         void InitializeValueUpdater() {
-
+            ValueUpdater += DISTANCE_TO_SHIP_UPDATER;
+            ValueUpdater += DISTANCE_TO_NEAR_OPEN_CHECKPOINT_UPDATER;
+            ValueUpdater += DISTANCE_TO_NEAR_ASTEROID_UPDATER;
+            ValueUpdater += ENERGY_UPDATER;
+            ValueUpdater += STUN_UPDATER;
+            ValueUpdater += ENNEMY_STUN_UPDATER;
+            ValueUpdater += ENNEMY_IN_FRONT_OF_US_UPDATER;
+            ValueUpdater += CHECKPOINT_BEHIND_ENNEMY_UPDATER;
+            ValueUpdater += SCORE_HIGHER_UPDATER;
+            ValueUpdater += ENNEMY_HIDE_UPDATER;
+            ValueUpdater += TIME_LEFT_UPDATER;
         }
 
         void DISTANCE_TO_SHIP_UPDATER(SpaceShipView spaceship, GameData data) {
-           // BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_SHIP] = 
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_SHIP] = Vector2.Distance(spaceship.Position, data.GetSpaceShipForOwner(1 - spaceship.Owner).Position);
         }
         void DISTANCE_TO_NEAR_OPEN_CHECKPOINT_UPDATER(SpaceShipView spaceship, GameData data) {
             WayPointView point = GetClosestPoint(spaceship.Position + spaceship.Velocity / 2f, data.WayPoints, spaceship.Owner);
@@ -223,34 +254,99 @@ namespace FriedFly {
             BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_NEAR_ASTEROID] = distance;
         }
         void ENERGY_UPDATER(SpaceShipView spaceship, GameData data) {
-
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.ENERGY] = spaceship.Energy;
         }
         void STUN_UPDATER(SpaceShipView spaceship, GameData data) {
-
+            if (hitCountEnnemy != data.GetSpaceShipForOwner(1 - spaceship.Owner).HitCount) {
+                isStun = true;
+                timerValue = timerTime;
+            }
+            if (isStun) {
+                timerValue -= Time.deltaTime;
+                if (timerValue <= 0) {
+                    isStun = false;
+                }
+            }
+            if (isStun) {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.STUN] = 1;
+            } else {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.STUN] = 0;
+            }
         }
-        void ENNEMY_STUN_UPDATER(SpaceShipView spaceship, GameData data) {
 
+        void ENNEMY_STUN_UPDATER(SpaceShipView spaceship, GameData data) {
+            if (hitCount != spaceship.HitCount) {
+                isStunEnnemy = true;
+                timerValueEnnemy = timerTimeEnnemy;
+            }
+            if (isStunEnnemy) {
+                timerValueEnnemy -= Time.deltaTime;
+                if (timerValueEnnemy <= 0) {
+                    isStunEnnemy = false;
+                }
+            }
+            if (isStunEnnemy) {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_STUN] = 1;
+            } else {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_STUN] = 0;
+            }
         }
         void ENNEMY_BEHIND_US_UPDATER(SpaceShipView spaceship, GameData data) {
+            SpaceShipView otherSpaceShip = data.GetSpaceShipForOwner(1 - spaceship.Owner);
+            float orientAngle = -spaceship.Orientation;
+            float youEnemyAngle = Atan2(spaceship.Position - otherSpaceShip.Position);
+            if (Mathf.Abs(orientAngle - youEnemyAngle) < 45f) { BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_BEHIND_US] = 1; } else { BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_BEHIND_US] = 0; }
 
         }
         void ENNEMY_IN_FRONT_OF_US_UPDATER(SpaceShipView spaceship, GameData data) {
-
+            SpaceShipView otherSpaceShip = data.GetSpaceShipForOwner(1 - spaceship.Owner);
+            float orientAngle = spaceship.Orientation;
+            float youEnemyAngle = Atan2(spaceship.Position - otherSpaceShip.Position);
+            if (Mathf.Abs(orientAngle - youEnemyAngle) < 45f) { BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_IN_FRONT_OF_US] = 1; } else { BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_IN_FRONT_OF_US] = 0; }
         }
         void CHECKPOINT_BEHIND_ENNEMY_UPDATER(SpaceShipView spaceship, GameData data) {
-
+            RaycastHit2D hit;
+            Vector2 distanceOtherSpaceShip = data.GetSpaceShipForOwner(1 - spaceship.Owner).Position - spaceship.Position;
+            hit = Physics2D.Raycast(data.GetSpaceShipForOwner(1 - spaceship.Owner).Position, distanceOtherSpaceShip, asteroidAndCheckPointMask);
+            if (hit) {
+                if (hit.transform.CompareTag("WayPoint")) {
+                    BlackBoard.Gino.scores[BlackBoard.ScoreType.CHECKPOINT_BEHIND_ENNEMY] = 0;
+                }
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.CHECKPOINT_BEHIND_ENNEMY] = 1;
+            }
         }
         void SCORE_HIGHER_UPDATER(SpaceShipView spaceship, GameData data) {
-
+            if (spaceship.Score < data.GetSpaceShipForOwner(1 - spaceship.Owner).Score) {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.SCORE_HIGHER] = -1;
+            } else if (spaceship.Score == data.GetSpaceShipForOwner(1 - spaceship.Owner).Score) {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.SCORE_HIGHER] = 0;
+            } else {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.SCORE_HIGHER] = 1;
+            }
         }
         void ENNEMY_HIDE_UPDATER(SpaceShipView spaceship, GameData data) {
+            RaycastHit2D hit;
+            Vector2 otherSpaceShip = data.GetSpaceShipForOwner(1 - spaceship.Owner).Position - spaceship.Position;
+            hit = Physics2D.Raycast(spaceship.Position, otherSpaceShip, otherSpaceShip.magnitude, asteroidMask);
+            if (hit) {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_HIDE] = 1;
+            } else {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_HIDE] = 0;
+            }
+        }
+
+        void TIME_LEFT_UPDATER(SpaceShipView spaceship, GameData data) {
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.TIME_LEFT] = data.timeLeft;
+        }
+
+        void MINE_NEAR_UPDATER() {
 
         }
-        void ENNEMY_NEAR_UPDATER(SpaceShipView spaceship, GameData data) {
+
+        void MINE_FRONT_UPDATER() {
 
         }
         #endregion
 
     }
 }
-
