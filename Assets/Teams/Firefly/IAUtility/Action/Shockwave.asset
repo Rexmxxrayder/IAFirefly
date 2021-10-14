@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f7f0101874ec84f847cb6a53db492e, type: 3}
   m_Name: Shockwave
   m_EditorClassIdentifier: 
-  onAction:
-    m_PersistentCalls:
-      m_Calls: []
+  onAction: 04000000
   iAScorers:
   - animationCurve:
       serializedVersion: 2

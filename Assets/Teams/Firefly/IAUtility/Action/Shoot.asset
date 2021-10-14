@@ -12,22 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f7f0101874ec84f847cb6a53db492e, type: 3}
   m_Name: Shoot
   m_EditorClassIdentifier: 
-  onAction:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -3353040817885224264, guid: 3f023cf9487392c41b03ab40e8780452,
-          type: 3}
-        m_TargetAssemblyTypeName: FriedFly.FireflyController, Assembly-CSharp
-        m_MethodName: Shoot
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  onAction: 02000000
   iAScorers:
   - animationCurve:
       serializedVersion: 2

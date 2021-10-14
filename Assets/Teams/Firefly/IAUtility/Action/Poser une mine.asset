@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f7f0101874ec84f847cb6a53db492e, type: 3}
   m_Name: Poser une mine
   m_EditorClassIdentifier: 
-  onAction:
-    m_PersistentCalls:
-      m_Calls: []
+  onAction: 03000000
   iAScorers:
   - animationCurve:
       serializedVersion: 2
@@ -42,7 +40,7 @@ MonoBehaviour:
       m_RotationOrder: 0
     scorer: 0
     valueBounds: {x: 0, y: 20}
-    scoreBounds: {x: 300, y: 0}
+    scoreBounds: {x: 500, y: 0}
   - animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -69,7 +67,7 @@ MonoBehaviour:
       m_RotationOrder: 0
     scorer: 6
     valueBounds: {x: 0, y: 1}
-    scoreBounds: {x: 0, y: 300}
+    scoreBounds: {x: 0, y: 500}
   - animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -95,8 +93,8 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     scorer: 12
-    valueBounds: {x: 0, y: 1}
-    scoreBounds: {x: 0, y: 300}
+    valueBounds: {x: 0, y: 60}
+    scoreBounds: {x: 0, y: 5000}
   - animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -121,7 +119,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    scorer: 13
-    valueBounds: {x: 0, y: 60}
-    scoreBounds: {x: 0, y: 300}
+    scorer: 11
+    valueBounds: {x: 0, y: 1}
+    scoreBounds: {x: 0, y: 500}
   finalPriority: 3

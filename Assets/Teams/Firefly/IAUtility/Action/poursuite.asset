@@ -12,22 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f7f0101874ec84f847cb6a53db492e, type: 3}
   m_Name: poursuite
   m_EditorClassIdentifier: 
-  onAction:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7672329417856911656, guid: 3f023cf9487392c41b03ab40e8780452,
-          type: 3}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  onAction: 01000000
   iAScorers:
   - animationCurve:
       serializedVersion: 2
@@ -55,7 +40,7 @@ MonoBehaviour:
       m_RotationOrder: 0
     scorer: 0
     valueBounds: {x: 0, y: 20}
-    scoreBounds: {x: 100, y: 0}
+    scoreBounds: {x: 0, y: 500}
   - animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -82,7 +67,7 @@ MonoBehaviour:
       m_RotationOrder: 0
     scorer: 9
     valueBounds: {x: -1, y: 1}
-    scoreBounds: {x: -100, y: 1000}
+    scoreBounds: {x: -1000, y: 1000}
   - animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -108,6 +93,33 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     scorer: 13
-    valueBounds: {x: 0, y: 60}
+    valueBounds: {x: 0, y: 1}
     scoreBounds: {x: 500, y: 0}
+  - animationCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    scorer: 12
+    valueBounds: {x: 60, y: 0}
+    scoreBounds: {x: 0, y: -5000}
   finalPriority: 1
