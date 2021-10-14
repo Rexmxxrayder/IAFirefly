@@ -42,7 +42,6 @@ namespace FriedFly {
             InitializeActionInvokable();
             timerTime = spaceship.HitCountdown;
             timerTimeEnnemy = spaceship.HitCountdown;
-            Debug.Log(timerTimeEnnemy + " .. " + timerTime);
         }
 
         public override InputData UpdateInput(SpaceShipView spaceship, GameData data) {
@@ -217,8 +216,8 @@ namespace FriedFly {
             float targetOrient;
             WayPointView nearestWayPoint = GetClosestPoint(spaceship.Position + spaceship.Velocity / 2f, data.WayPoints, spaceship.Owner);
             if (nearestWayPoint == null) {
-                Debug.Log(data.timeLeft);
-                Debug.Break();
+                //Debug.Log(data.timeLeft);
+                //Debug.Break();
                 nearestWayPoint = data.WayPoints[0];
             }
 
