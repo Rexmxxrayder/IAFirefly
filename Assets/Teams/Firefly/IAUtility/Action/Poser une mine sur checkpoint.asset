@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35f7f0101874ec84f847cb6a53db492e, type: 3}
-  m_Name: poursuite
+  m_Name: Poser une mine sur checkpoint
   m_EditorClassIdentifier: 
-  onAction: 01000000
+  onAction: 03000000
   iAScorers:
-  - animationCurve:
+  - scorer: 11
+    valueBounds: {x: 0, y: 1}
+    animationCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -38,61 +40,41 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    scorer: 0
-    valueBounds: {x: 0, y: 20}
-    scoreBounds: {x: 0, y: 100}
-  - animationCurve:
+    scoreBounds: {x: 0, y: 500}
+  - scorer: 3
+    valueBounds: {x: 0, y: 1}
+    animationCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 1
-        outSlope: 1
+        inSlope: 1.4285715
+        outSlope: 1.4285715
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.7
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
         outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1
-        outSlope: 1
+        inSlope: 0
+        outSlope: 0
         tangentMode: 34
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.33333334
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    scorer: 9
-    valueBounds: {x: -1, y: 1}
-    scoreBounds: {x: -200, y: 200}
-  - animationCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: -0.000045776367
-        value: 1
-        inSlope: -0.9999542
-        outSlope: -0.9999542
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0
-        inSlope: -0.9999542
-        outSlope: -0.9999542
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    scorer: 12
-    valueBounds: {x: 60, y: 0}
-    scoreBounds: {x: -100, y: 100}
-  finalPriority: 1
+    scoreBounds: {x: -500, y: 500}
+  finalPriority: 3
