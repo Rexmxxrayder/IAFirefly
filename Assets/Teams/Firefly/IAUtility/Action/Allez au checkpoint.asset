@@ -99,7 +99,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     scorer: 9
-    valueBounds: {x: 0, y: 20}
+    valueBounds: {x: -1, y: 1}
     scoreBounds: {x: 0, y: 0}
   - animationCurve:
       serializedVersion: 2
@@ -135,7 +135,7 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     scorer: 7
-    valueBounds: {x: 0, y: 20}
+    valueBounds: {x: 0, y: 1}
     scoreBounds: {x: 0, y: 0}
   - animationCurve:
       serializedVersion: 2
@@ -209,4 +209,4 @@ MonoBehaviour:
     scorer: 4
     valueBounds: {x: 0, y: 1}
     scoreBounds: {x: 0, y: 0}
-  finalPriority: 0
+  finalPriority: 2
