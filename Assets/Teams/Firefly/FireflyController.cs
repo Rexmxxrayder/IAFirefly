@@ -26,12 +26,6 @@ namespace FriedFly {
         //private GameData data;
         [SerializeField] private bool isStun = false;
         [SerializeField] private bool isStunEnnemy = false;
-        public float timerShootValue = 0;
-        private float timerShoot= 0;
-        public  float timerMineValue = 0;
-        private float timerMine = 0;
-        public  float timerShockwaveValue = 0;
-        private float timerShockwave = 0;
         private float timerValue = 0;
         private float timerValueEnnemy = 0;
         public int hitCount;
@@ -77,28 +71,7 @@ namespace FriedFly {
                     //BestActionToInvoke().onAction[i](spaceship, data);
                 }
                 InputData result = inputData;
-                TimersManagement(result);
                 return result;
-            }
-        }
-
-        void TimersManagement(InputData inputData) {
-            if (inputData.dropMine) {
-                timerMine = timerMineValue;
-            } else if (timerMine != 0) {
-                timerMine -= Time.deltaTime;
-            }
-
-            if (inputData.fireShockwave) {
-                timerShockwave = timerShockwaveValue;
-            } else if (timerShockwave != 0) {
-                timerShockwave -= Time.deltaTime;
-            }
-
-            if (inputData.shoot) {
-                timerShoot = timerShootValue;
-            } else if (timerShoot != 0) {
-                timerShoot -= Time.deltaTime;
             }
         }
 
@@ -225,21 +198,15 @@ namespace FriedFly {
         #region ActionFunction
 
         public void Shoot(SpaceShipView spaceship, GameData data) {
-            if (timerShoot <= 0) {
                 inputData.shoot = true;
-            }
         }
 
         public void LandMine(SpaceShipView spaceship, GameData data) {
-            if (timerMine <= 0) {
-                inputData.dropMine = true;
-            }
+            inputData.dropMine = true;
         }
 
         public void Shockwave(SpaceShipView spaceship, GameData data) {
-            if (timerShockwave <= 0) {
             inputData.fireShockwave = true;
-            }
         }
 
         public void RushPoints(SpaceShipView spaceship, GameData data) {
@@ -334,6 +301,9 @@ namespace FriedFly {
             ValueUpdater += MINE_NEAR_UPDATER;
             ValueUpdater += NEAR_CHECKPOINT_ENEMY_UPDATER;
             ValueUpdater += NEAR_CHECKPOINT_NEUTRAL_UPDATER;
+            ValueUpdater += COUNTDOWN_MINE_UPDATER; 
+            ValueUpdater += COUNTDOWN_SHOOT_UPDATER;
+            ValueUpdater += COUNTDOWN_SHOCKWAVE_UPDATER;
         }
 
         void DISTANCE_TO_SHIP_UPDATER(SpaceShipView spaceship, GameData data) {
@@ -511,6 +481,18 @@ namespace FriedFly {
                 }
             }
             BlackBoard.Gino.scores[BlackBoard.ScoreType.NEAR_CHECKPOINT_NEUTRAL] = dist;
+        }
+
+        void COUNTDOWN_MINE_UPDATER(SpaceShipView spaceship, GameData data) {
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_MINE] -= Time.deltaTime;
+        }
+
+        void COUNTDOWN_SHOOT_UPDATER(SpaceShipView spaceship, GameData data) {
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOOT] -= Time.deltaTime;
+        }
+
+        void COUNTDOWN_SHOCKWAVE_UPDATER(SpaceShipView spaceship, GameData data) {
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOCKWAVE] -= Time.deltaTime;
         }
 
         #endregion
