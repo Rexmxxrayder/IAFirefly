@@ -26,6 +26,12 @@ namespace FriedFly {
         //private GameData data;
         [SerializeField] private bool isStun = false;
         [SerializeField] private bool isStunEnnemy = false;
+        public float timerShootValue = 0;
+        private float timerShoot= 0;
+        public  float timerMineValue = 0;
+        private float timerMine = 0;
+        public  float timerShockwaveValue = 0;
+        private float timerShockwave = 0;
         private float timerValue = 0;
         private float timerValueEnnemy = 0;
         public int hitCount;
@@ -71,7 +77,28 @@ namespace FriedFly {
                     //BestActionToInvoke().onAction[i](spaceship, data);
                 }
                 InputData result = inputData;
+                TimersManagement(result);
                 return result;
+            }
+        }
+
+        void TimersManagement(InputData inputData) {
+            if (inputData.dropMine) {
+                timerMine = timerMineValue;
+            } else if (timerMine != 0) {
+                timerMine -= Time.deltaTime;
+            }
+
+            if (inputData.fireShockwave) {
+                timerShockwave = timerShockwaveValue;
+            } else if (timerShockwave != 0) {
+                timerShockwave -= Time.deltaTime;
+            }
+
+            if (inputData.shoot) {
+                timerShoot = timerShootValue;
+            } else if (timerShoot != 0) {
+                timerShoot -= Time.deltaTime;
             }
         }
 
@@ -144,6 +171,7 @@ namespace FriedFly {
             for (int i = 0; i < iaActions.Count; i++) {
                 float actionPriority = iaActions[i].Priority();
                 float actionFinalPriority = iaActions[i].finalPriority;
+                Debug.Log("Action Numero " + (i + 1) + " Score : " + actionPriority);
                 if (highestPriority < actionPriority || highestPriority == actionPriority && finalPriority < actionFinalPriority) {
                     highestPriority = actionPriority;
                     finalPriority = actionFinalPriority;
@@ -197,15 +225,21 @@ namespace FriedFly {
         #region ActionFunction
 
         public void Shoot(SpaceShipView spaceship, GameData data) {
-            inputData.shoot = true;
+            if (timerShoot <= 0) {
+                inputData.shoot = true;
+            }
         }
 
         public void LandMine(SpaceShipView spaceship, GameData data) {
-            inputData.dropMine = true;
+            if (timerMine <= 0) {
+                inputData.dropMine = true;
+            }
         }
 
         public void Shockwave(SpaceShipView spaceship, GameData data) {
+            if (timerShockwave <= 0) {
             inputData.fireShockwave = true;
+            }
         }
 
         public void RushPoints(SpaceShipView spaceship, GameData data) {
@@ -387,7 +421,10 @@ namespace FriedFly {
             hit = Physics2D.Raycast(data.GetSpaceShipForOwner(1 - spaceship.Owner).Position, distanceOtherSpaceShip, asteroidAndCheckPointMask);
             if (hit) {
                 if (hit.transform.CompareTag("WayPoint")) {
-                    BlackBoard.Gino.scores[BlackBoard.ScoreType.CHECKPOINT_BEHIND_ENNEMY] = 0;
+                    if (hit.transform.GetComponent<WayPoint>().Owner != data.GetSpaceShipForOwner(1 - spaceship.Owner).Owner) {
+                        BlackBoard.Gino.scores[BlackBoard.ScoreType.CHECKPOINT_BEHIND_ENNEMY] = 1;
+                        return;
+                    }
                 }
                 BlackBoard.Gino.scores[BlackBoard.ScoreType.CHECKPOINT_BEHIND_ENNEMY] = 1;
             }
