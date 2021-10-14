@@ -155,7 +155,7 @@ namespace FriedFly {
                     actionToDo = i;
                 }
             }
-            Debug.Log("/-> Action done : " + actionToDo);
+            Debug.Log("/-> Action done : " + iaActions[actionToDo].Priority());
             return iaActions[actionToDo];
         }
 
