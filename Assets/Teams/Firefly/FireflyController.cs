@@ -198,15 +198,18 @@ namespace FriedFly {
         #region ActionFunction
 
         public void Shoot(SpaceShipView spaceship, GameData data) {
-                inputData.shoot = true;
+            inputData.shoot = true;
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOOT] = 10f;
         }
 
         public void LandMine(SpaceShipView spaceship, GameData data) {
             inputData.dropMine = true;
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_MINE] = 10f;
         }
 
         public void Shockwave(SpaceShipView spaceship, GameData data) {
             inputData.fireShockwave = true;
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOCKWAVE] = 10f;
         }
 
         public void RushPoints(SpaceShipView spaceship, GameData data) {
@@ -217,7 +220,6 @@ namespace FriedFly {
                 //Debug.Break();
                 nearestWayPoint = data.WayPoints[0];
             }
-
 
             WayPointView nearestNextWayPoint = GetClosestPoint(nearestWayPoint.Position, data.WayPoints, spaceship.Owner, nearestWayPoint);
             if (nearestNextWayPoint == null) {
@@ -304,6 +306,10 @@ namespace FriedFly {
             ValueUpdater += COUNTDOWN_MINE_UPDATER; 
             ValueUpdater += COUNTDOWN_SHOOT_UPDATER;
             ValueUpdater += COUNTDOWN_SHOCKWAVE_UPDATER;
+            ValueUpdater += AIMING_ENEMY_TRAJECTORY_UPDATER;
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOOT] = 0f;
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOCKWAVE] = 0f;
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_MINE] = 0f;
         }
 
         void DISTANCE_TO_SHIP_UPDATER(SpaceShipView spaceship, GameData data) {
@@ -484,7 +490,7 @@ namespace FriedFly {
         }
 
         void AIMING_ENEMY_TRAJECTORY_UPDATER(SpaceShipView spaceship, GameData data) {
-            SpaceShipView otherSpaceship = otherSpaceship = data.GetSpaceShipForOwner(1 - spaceship.Owner);
+            SpaceShipView otherSpaceship = data.GetSpaceShipForOwner(1 - spaceship.Owner);
             if (AimingHelpers.CanHit(spaceship, otherSpaceship.Position, otherSpaceship.Velocity, 0.15f)) {
                 BlackBoard.Gino.scores[BlackBoard.ScoreType.AIMING_ENEMY_TRAJECTORY] = 1;
             } else {

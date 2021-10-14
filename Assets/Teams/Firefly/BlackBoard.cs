@@ -44,7 +44,7 @@ namespace FriedFly {
         private void Awake() {
             Gino = this;
             FillScores();
-            seeVariables = new float[18];
+            seeVariables = new float[21];
         }
 
         void FillScores() {
