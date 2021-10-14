@@ -21,7 +21,8 @@ namespace FriedFly {
             MINE_FRONT,
             MINE_NEAR,
             NEAR_CHECKPOINT_ENEMY,
-            NEAR_CHECKPOINT_NEUTRAL
+            NEAR_CHECKPOINT_NEUTRAL,
+            AIMING_ENEMY_TRAJECTORY
         }
 
         public static BlackBoard Gino;
@@ -40,7 +41,7 @@ namespace FriedFly {
         private void Awake() {
             Gino = this;
             FillScores();
-            seeVariables = new float[17];
+            seeVariables = new float[18];
         }
 
         void FillScores() {

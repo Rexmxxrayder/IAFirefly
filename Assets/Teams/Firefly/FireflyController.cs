@@ -476,6 +476,15 @@ namespace FriedFly {
             BlackBoard.Gino.scores[BlackBoard.ScoreType.NEAR_CHECKPOINT_NEUTRAL] = dist;
         }
 
+        void AIMING_ENEMY_TRAJECTORY_UPDATER(SpaceShipView spaceship, GameData data) {
+            SpaceShipView otherSpaceship = otherSpaceship = data.GetSpaceShipForOwner(1 - spaceship.Owner);
+            if (AimingHelpers.CanHit(spaceship, otherSpaceship.Position, otherSpaceship.Velocity, 0.15f)) {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.AIMING_ENEMY_TRAJECTORY] = 1;
+            } else {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.AIMING_ENEMY_TRAJECTORY] = 0;
+            }
+        }
+
         #endregion
     }
 }
