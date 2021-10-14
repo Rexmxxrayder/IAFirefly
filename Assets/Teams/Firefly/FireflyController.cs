@@ -5,14 +5,25 @@ using DoNotModify;
 
 namespace FriedFly {
     public class FireflyController : BaseSpaceShipController {
+        public enum ActionInvokable {
+            RUSH_POINTS,
+            FOLLOW_ENEMY,
+            SHOOT,
+            LAND_MINE,
+            SHOCKWAVE
+        }
+
+        public delegate void MyDelegate(SpaceShipView spaceship, GameData data);
+
+        public Dictionary<ActionInvokable, ActionDelegate> invokableDelegates;
+
         public List<IAAction> iaActions = new List<IAAction>();
         private InputData inputData;
-        public delegate void MyDelegate(SpaceShipView spaceship, GameData data);
         private MyDelegate ValueUpdater;
 
         // Variables updaters
-        private SpaceShipView spaceship;
-        private GameData data;
+        //private SpaceShipView spaceship;
+        //private GameData data;
         private bool isStun = false;
         private bool isStunEnnemy = false;
         private float timerTime;
@@ -28,10 +39,9 @@ namespace FriedFly {
 
         public override void Initialize(SpaceShipView spaceship, GameData data) {
             InitializeValueUpdater();
+            InitializeActionInvokable();
             timerTime = spaceship.HitCountdown;
             timerTimeEnnemy = spaceship.HitCountdown;
-            this.spaceship = spaceship;
-
         }
 
         public override InputData UpdateInput(SpaceShipView spaceship, GameData data) {
@@ -43,8 +53,6 @@ namespace FriedFly {
             //bool needShoot = AimingHelpers.CanHit(spaceship, otherSpaceship.Position, otherSpaceship.Velocity, 0.15f);
             //DebugSpaceShip(spaceship, nearestWayPoint.Position, targetOrient);
             ValueUpdater(spaceship, data);
-            this.spaceship = spaceship;
-            this.data = data;
             if (BlackBoard.Gino.ManualMode == true) {
                 float thrust = (Input.GetAxis("KbVertical") > 0.0f) ? 1.0f : 0.0f;
                 float targetOrient = spaceship.Orientation;
@@ -58,8 +66,14 @@ namespace FriedFly {
 
                 return new InputData(thrust, targetOrient, shoot, dropMine, fireShockwave);
             } else {
-                inputData = new InputData(0f, spaceship.Orientation, false, false, false);
-                BestActionToInvoke().onAction.Invoke();
+                inputData = new InputData(0f, spaceship.Orientation, false, false, Input.GetKeyDown(KeyCode.Space));
+                //BestActionToInvoke().onAction.Invoke();
+                //RushPoints();
+                IAAction bestAction = BestActionToInvoke();
+                for (int i = 0; i < bestAction.onAction.Count; i++) {
+                    invokableDelegates[bestAction.onAction[i]](spaceship, data);
+                    //BestActionToInvoke().onAction[i](spaceship, data);
+                }
                 InputData result = inputData;
                 return result;
             }
@@ -186,19 +200,19 @@ namespace FriedFly {
 
         #region ActionFunction
 
-        public void Shoot() {
+        public void Shoot(SpaceShipView spaceship, GameData data) {
             inputData.shoot = true;
         }
 
-        public void LandMine() {
+        public void LandMine(SpaceShipView spaceship, GameData data) {
             inputData.dropMine = true;
         }
 
-        public void Shockwave() {
+        public void Shockwave(SpaceShipView spaceship, GameData data) {
             inputData.fireShockwave = true;
         }
 
-        public void RushPoints() {
+        public void RushPoints(SpaceShipView spaceship, GameData data) {
             float targetOrient;
             WayPointView nearestWayPoint = GetClosestPoint(spaceship.Position + spaceship.Velocity / 2f, data.WayPoints, spaceship.Owner);
             if (nearestWayPoint == null) {
@@ -227,6 +241,7 @@ namespace FriedFly {
             targetOrient = GoTo(target, spaceship, data);
 
             DebugSpaceShip(spaceship, target, targetOrient);
+            inputData.thrust = 1f;
             inputData.targetOrientation = targetOrient;
 
             if (spaceship.Energy < 1f &&
@@ -236,9 +251,9 @@ namespace FriedFly {
             }
         }
 
-        public void FollowEnemy() {
+        public void FollowEnemy(SpaceShipView spaceship, GameData data) {
             SpaceShipView otherSpaceship = data.GetSpaceShipForOwner(1 - spaceship.Owner);
-            inputData.thrust = 1.0f;
+            inputData.thrust = 1f;
             inputData.targetOrientation = GoTo(otherSpaceship.Position, spaceship, data, true);
             if (spaceship.Energy < 1f &&
                 spaceship.Velocity.magnitude >= spaceship.SpeedMax &&
@@ -247,7 +262,7 @@ namespace FriedFly {
             }
         }
 
-        public void TurretMode() {
+        public void TurretMode(SpaceShipView spaceship, GameData data) {
 
         }
 
@@ -258,6 +273,15 @@ namespace FriedFly {
             Debug.DrawLine(spaceship.Position, spaceship.Position + spaceship.Velocity, Color.red);
             Debug.DrawLine(spaceship.Position, target, Color.green);
             Debug.DrawLine(spaceship.Position, spaceship.Position + new Vector2(Mathf.Cos(targetOrient), Mathf.Sin(targetOrient)), Color.white);
+        }
+
+        private void InitializeActionInvokable() {
+            invokableDelegates = new Dictionary<ActionInvokable, ActionDelegate>();
+            invokableDelegates.Add(ActionInvokable.RUSH_POINTS, RushPoints);
+            invokableDelegates.Add(ActionInvokable.FOLLOW_ENEMY, FollowEnemy);
+            invokableDelegates.Add(ActionInvokable.LAND_MINE, LandMine);
+            invokableDelegates.Add(ActionInvokable.SHOCKWAVE, Shockwave);
+            invokableDelegates.Add(ActionInvokable.SHOOT, Shoot);
         }
 
         #region VariableUpdater
@@ -288,6 +312,7 @@ namespace FriedFly {
 
         void DISTANCE_TO_NEAR_OPEN_CHECKPOINT_UPDATER(SpaceShipView spaceship, GameData data) {
             WayPointView point = GetClosestPoint(spaceship.Position + spaceship.Velocity / 2f, data.WayPoints, spaceship.Owner);
+            if (point == null) { BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_NEAR_OPEN_CHECKPOINT] = Mathf.Infinity; return; }
             float distance = Vector2.Distance(point.Position, spaceship.Position);
             BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_NEAR_OPEN_CHECKPOINT] = distance;
         }

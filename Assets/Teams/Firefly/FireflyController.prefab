@@ -93,8 +93,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iaActions:
-  - {fileID: 11400000, guid: 3fd916d17396d6a4fbf0ed953a497082, type: 2}
-  - {fileID: 11400000, guid: 4ea7c00689217e04a84b93d644d139e4, type: 2}
+  - {fileID: 11400000, guid: eaeb97848ee8813499a33ecec359dbd4, type: 2}
+  hitCount: 0
+  hitCountEnnemy: 0
 --- !u!114 &1903164748920350954
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -26,11 +26,12 @@ namespace FriedFly {
 
         public static BlackBoard Gino;
 
+        public Dictionary<ScoreType, float> scores = new Dictionary<ScoreType, float>();
+
         public List<ScoreType> types = new List<ScoreType>();
         public List<float> variables = new List<float>();
         public float[] seeVariables;
         public bool mustRefresh = false;
-        public Dictionary<ScoreType, float> scores = new Dictionary<ScoreType, float>();
         public float radiusShockwave;
         public float ennemyNear;
         public float radiusCheckPoint;
