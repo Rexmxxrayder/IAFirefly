@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace FriedFly {
     public class BlackBoard : MonoBehaviour {
-        public static BlackBoard Gino;
-        public static BlackBoard Gino2;
         public enum ScoreType {
             DISTANCE_TO_SHIP,
             DISTANCE_TO_NEAR_OPEN_CHECKPOINT,
@@ -26,6 +24,8 @@ namespace FriedFly {
             NEAR_CHECKPOINT_NEUTRAL
         }
 
+        public static BlackBoard Gino;
+
         public List<ScoreType> types = new List<ScoreType>();
         public List<float> variables = new List<float>();
         public float[] seeVariables;
@@ -35,6 +35,7 @@ namespace FriedFly {
         public float ennemyNear;
         public float radiusCheckPoint;
         public bool ManualMode;
+
         private void Awake() {
             Gino = this;
             FillScores();
@@ -45,10 +46,10 @@ namespace FriedFly {
             for (int i = 0; i < variables.Count; i++) {
                 scores.Add(types[i], variables[i]);
             }
-        } 
+        }
         void ChangeScores() {
             for (int i = 0; i < variables.Count; i++) {
-                scores[types[i]] =  variables[i];
+                scores[types[i]] = variables[i];
             }
         }
 
@@ -63,7 +64,7 @@ namespace FriedFly {
                 mustRefresh = false;
                 ChangeScores();
             }
-                SeeScores();
+            SeeScores();
         }
     }
 }

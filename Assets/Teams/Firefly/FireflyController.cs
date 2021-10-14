@@ -9,26 +9,31 @@ namespace FriedFly {
         private InputData inputData;
         public delegate void MyDelegate(SpaceShipView spaceship, GameData data);
         private MyDelegate ValueUpdater;
+
+        // Variables updaters
+        private SpaceShipView spaceship;
+        private GameData data;
         private bool isStun = false;
         private bool isStunEnnemy = false;
         private float timerTime;
         private float timerTimeEnnemy;
         private float timerValue = 0;
         private float timerValueEnnemy = 0;
-        private int hitCount;
-        private int hitCountEnnemy;
+        public int hitCount;
+        public int hitCountEnnemy;
         private LayerMask asteroidMask = 12;
         private LayerMask CheckPointMask = 11;
         private LayerMask asteroidAndCheckPointMask = 1 << 12 & 1 << 11;
         private LayerMask MineMask = 13;
-        private SpaceShipView spaceship;
-        private GameData data;
 
         public override void Initialize(SpaceShipView spaceship, GameData data) {
             InitializeValueUpdater();
             timerTime = spaceship.HitCountdown;
             timerTimeEnnemy = spaceship.HitCountdown;
+            this.spaceship = spaceship;
+
         }
+
         public override InputData UpdateInput(SpaceShipView spaceship, GameData data) {
 
             //SpaceShipView otherSpaceship = data.GetSpaceShipForOwner(1 - spaceship.Owner);
@@ -38,6 +43,8 @@ namespace FriedFly {
             //bool needShoot = AimingHelpers.CanHit(spaceship, otherSpaceship.Position, otherSpaceship.Velocity, 0.15f);
             //DebugSpaceShip(spaceship, nearestWayPoint.Position, targetOrient);
             ValueUpdater(spaceship, data);
+            this.spaceship = spaceship;
+            this.data = data;
             if (BlackBoard.Gino.ManualMode == true) {
                 float thrust = (Input.GetAxis("KbVertical") > 0.0f) ? 1.0f : 0.0f;
                 float targetOrient = spaceship.Orientation;
@@ -52,8 +59,6 @@ namespace FriedFly {
                 return new InputData(thrust, targetOrient, shoot, dropMine, fireShockwave);
             } else {
                 inputData = new InputData(0f, spaceship.Orientation, false, false, false);
-                this.spaceship = spaceship;
-                this.data = data;
                 BestActionToInvoke().onAction.Invoke();
                 InputData result = inputData;
                 return result;
@@ -101,6 +106,8 @@ namespace FriedFly {
         }
 
         #endregion
+
+        #region Utilities
 
         private Vector2 PointOnCircle(float angle, float radius) {
             float x = Mathf.Cos(angle * Mathf.Deg2Rad);
@@ -175,7 +182,10 @@ namespace FriedFly {
             return false;
         }
 
+        #endregion
+
         #region ActionFunction
+
         public void Shoot() {
             inputData.shoot = true;
         }
@@ -251,6 +261,7 @@ namespace FriedFly {
         }
 
         #region VariableUpdater
+
         void InitializeValueUpdater() {
             ValueUpdater += DISTANCE_TO_SHIP_UPDATER;
             ValueUpdater += DISTANCE_TO_NEAR_OPEN_CHECKPOINT_UPDATER;
@@ -274,19 +285,24 @@ namespace FriedFly {
         void DISTANCE_TO_SHIP_UPDATER(SpaceShipView spaceship, GameData data) {
             BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_SHIP] = Vector2.Distance(spaceship.Position, data.GetSpaceShipForOwner(1 - spaceship.Owner).Position);
         }
+
         void DISTANCE_TO_NEAR_OPEN_CHECKPOINT_UPDATER(SpaceShipView spaceship, GameData data) {
             WayPointView point = GetClosestPoint(spaceship.Position + spaceship.Velocity / 2f, data.WayPoints, spaceship.Owner);
             float distance = Vector2.Distance(point.Position, spaceship.Position);
             BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_NEAR_OPEN_CHECKPOINT] = distance;
         }
+
         void DISTANCE_TO_NEAR_ASTEROID_UPDATER(SpaceShipView spaceship, GameData data) {
             AsteroidView asteroid = GetClosestAsteroid(spaceship, data.Asteroids);
             float distance = Vector2.Distance(asteroid.Position, spaceship.Position);
+            distance -= Mathf.Abs(asteroid.Radius);
             BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_NEAR_ASTEROID] = distance;
         }
+
         void ENERGY_UPDATER(SpaceShipView spaceship, GameData data) {
             BlackBoard.Gino.scores[BlackBoard.ScoreType.ENERGY] = spaceship.Energy;
         }
+
         void STUN_UPDATER(SpaceShipView spaceship, GameData data) {
             if (hitCountEnnemy != data.GetSpaceShipForOwner(1 - spaceship.Owner).HitCount) {
                 isStun = true;
@@ -322,12 +338,14 @@ namespace FriedFly {
                 BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_STUN] = 0;
             }
         }
+
         void ENNEMY_BEHIND_US_UPDATER(SpaceShipView spaceship, GameData data) {
             SpaceShipView otherSpaceShip = data.GetSpaceShipForOwner(1 - spaceship.Owner);
             float orientAngle = -spaceship.Orientation;
             float youEnemyAngle = Atan2(spaceship.Position - otherSpaceShip.Position);
             if (Mathf.Abs(orientAngle - youEnemyAngle) < 45f) { BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_BEHIND_US] = 1; } else { BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_BEHIND_US] = 0; }
         }
+
         void ENNEMY_IN_FRONT_OF_US_UPDATER(SpaceShipView spaceship, GameData data) {
             SpaceShipView otherSpaceShip = data.GetSpaceShipForOwner(1 - spaceship.Owner);
             float orientAngle = spaceship.Orientation;
@@ -335,6 +353,7 @@ namespace FriedFly {
             if (Mathf.Abs(orientAngle - youEnemyAngle) < 45f) { BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_IN_FRONT_OF_US] = 1; } 
             else { BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_IN_FRONT_OF_US] = 0; }
         }
+
         void CHECKPOINT_BEHIND_ENNEMY_UPDATER(SpaceShipView spaceship, GameData data) {
             RaycastHit2D hit;
             Vector2 distanceOtherSpaceShip = data.GetSpaceShipForOwner(1 - spaceship.Owner).Position - spaceship.Position;
@@ -346,6 +365,7 @@ namespace FriedFly {
                 BlackBoard.Gino.scores[BlackBoard.ScoreType.CHECKPOINT_BEHIND_ENNEMY] = 1;
             }
         }
+
         void SCORE_HIGHER_UPDATER(SpaceShipView spaceship, GameData data) {
             if (spaceship.Score < data.GetSpaceShipForOwner(1 - spaceship.Owner).Score) {
                 BlackBoard.Gino.scores[BlackBoard.ScoreType.SCORE_HIGHER] = -1;
@@ -355,6 +375,7 @@ namespace FriedFly {
                 BlackBoard.Gino.scores[BlackBoard.ScoreType.SCORE_HIGHER] = 1;
             }
         }
+
         void ENNEMY_HIDE_UPDATER(SpaceShipView spaceship, GameData data) {
             RaycastHit2D hit;
             Vector2 toOtherSpaceShip = data.GetSpaceShipForOwner(1 - spaceship.Owner).Position - spaceship.Position;
@@ -415,7 +436,8 @@ namespace FriedFly {
                 }
             }
             BlackBoard.Gino.scores[BlackBoard.ScoreType.NEAR_CHECKPOINT_ENEMY] = dist;
-        }  
+        }
+
         void NEAR_CHECKPOINT_NEUTRAL_UPDATER(SpaceShipView spaceship, GameData data) {
             float dist = Mathf.Infinity;
             for (int i = 0; i < data.WayPoints.Count; i++) {
@@ -427,7 +449,6 @@ namespace FriedFly {
             BlackBoard.Gino.scores[BlackBoard.ScoreType.NEAR_CHECKPOINT_NEUTRAL] = dist;
         }
 
-        
         #endregion
     }
 }
