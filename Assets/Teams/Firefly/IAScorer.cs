@@ -5,9 +5,9 @@ using UnityEngine;
 namespace FriedFly {
     [System.Serializable]
     public class IAScorer {
-        public AnimationCurve animationCurve;
         public BlackBoard.ScoreType scorer;
         public Vector2 valueBounds;
+        public AnimationCurve animationCurve;
         public Vector2 scoreBounds;
 
         public float Compute() {

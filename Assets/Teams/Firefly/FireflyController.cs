@@ -26,8 +26,6 @@ namespace FriedFly {
         //private GameData data;
         [SerializeField] private bool isStun = false;
         [SerializeField] private bool isStunEnnemy = false;
-        private float timerTime;
-        private float timerTimeEnnemy;
         private float timerValue = 0;
         private float timerValueEnnemy = 0;
         public int hitCount;
@@ -40,8 +38,6 @@ namespace FriedFly {
         public override void Initialize(SpaceShipView spaceship, GameData data) {
             InitializeValueUpdater();
             InitializeActionInvokable();
-            timerTime = spaceship.HitCountdown;
-            timerTimeEnnemy = spaceship.HitCountdown;
         }
 
         public override InputData UpdateInput(SpaceShipView spaceship, GameData data) {
@@ -234,13 +230,13 @@ namespace FriedFly {
             float targetAngle = angleNearestPoint + midAngle;
 
             Vector2 target = nearestWayPoint.Position + PointOnCircle(targetAngle, Mathf.Abs(nearestWayPoint.Radius) + spaceship.Radius / 2f);
-            Debug.DrawLine(nearestWayPoint.Position, target, Color.blue);
-            Debug.DrawLine(nearestNextWayPoint.Position, nearestWayPoint.Position, Color.grey);
-            Debug.DrawLine(spaceship.Position, nearestWayPoint.Position, Color.grey);
+            //Debug.DrawLine(nearestWayPoint.Position, target, Color.blue);
+            //Debug.DrawLine(nearestNextWayPoint.Position, nearestWayPoint.Position, Color.grey);
+            //Debug.DrawLine(spaceship.Position, nearestWayPoint.Position, Color.grey);
 
             targetOrient = GoTo(target, spaceship, data);
 
-            DebugSpaceShip(spaceship, target, targetOrient);
+            //DebugSpaceShip(spaceship, target, targetOrient);
             inputData.thrust = 1f;
             inputData.targetOrientation = targetOrient;
 
