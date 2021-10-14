@@ -13,13 +13,14 @@ namespace FriedFly {
         bool mustShoot = false;
         public delegate void MyDelegate(SpaceShipView spaceship, GameData data);
         private MyDelegate ValueUpdater;
+
         public override void Initialize(SpaceShipView spaceship, GameData data) {
             InitializeValueUpdater();
         }
         public override InputData UpdateInput(SpaceShipView spaceship, GameData data) {
-            speed = 0;
+            speed = 1f;
             orientation = 0;
-            mustShockwave = false;
+            mustShockwave = Input.GetKeyDown(KeyCode.Space);
             mustLandMine = false;
             mustShoot = false;
             BestActionToInvoke().onAction.Invoke();
@@ -64,7 +65,6 @@ namespace FriedFly {
             Vector2 perp = -Vector2.Perpendicular(target - spaceship.Position);
             Vector2 toTarget = target - spaceship.Position;
             Vector2 toAsteroid = asteroid.Position - spaceship.Position;
-            Debug.Log(Vector2.SignedAngle(toTarget, toAsteroid));
             if (Vector2.SignedAngle(toTarget, toAsteroid) < 0f) {
                 perp *= -1;
             }
@@ -105,6 +105,12 @@ namespace FriedFly {
 
             DebugSpaceShip(spaceship, target, targetOrient);
             inputData.targetOrientation = targetOrient;
+
+            if (spaceship.Energy < 1f &&
+                spaceship.Velocity.magnitude >= spaceship.SpeedMax &&
+                Mathf.Abs(Atan2(spaceship.Velocity) - targetOrient) < 5f) {
+                inputData.thrust = 0f;
+            }
             return inputData;
         }
 
@@ -207,10 +213,14 @@ namespace FriedFly {
            // BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_SHIP] = 
         }
         void DISTANCE_TO_NEAR_OPEN_CHECKPOINT_UPDATER(SpaceShipView spaceship, GameData data) {
-
+            WayPointView point = GetClosestPoint(spaceship.Position + spaceship.Velocity / 2f, data.WayPoints, spaceship.Owner);
+            float distance = Vector2.Distance(point.Position, spaceship.Position);
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_NEAR_OPEN_CHECKPOINT] = distance;
         }
         void DISTANCE_TO_NEAR_ASTEROID_UPDATER(SpaceShipView spaceship, GameData data) {
-
+            AsteroidView asteroid = GetClosestAsteroid(spaceship, data.Asteroids);
+            float distance = Vector2.Distance(asteroid.Position, spaceship.Position);
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.DISTANCE_TO_NEAR_ASTEROID] = distance;
         }
         void ENERGY_UPDATER(SpaceShipView spaceship, GameData data) {
 
