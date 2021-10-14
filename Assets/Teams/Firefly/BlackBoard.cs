@@ -28,7 +28,8 @@ namespace FriedFly {
         public List<float> variables = new List<float>();
         public bool mustRefresh = false;
         public Dictionary<ScoreType, float> scores = new Dictionary<ScoreType, float>();
-        public float near;
+        public float mineNear;
+        public float ennemyNear;
         private void Awake() {
             Gino = this;
             FillScores();
