@@ -121,5 +121,5 @@ MonoBehaviour:
       m_RotationOrder: 0
     scorer: 12
     valueBounds: {x: 60, y: 0}
-    scoreBounds: {x: 0, y: -5000}
+    scoreBounds: {x: 0, y: 0}
   finalPriority: 1

@@ -15,9 +15,12 @@ namespace FriedFly {
 
         public float Priority() {
             float scorersTotal = 0;
+            //Debug.Log("//");
             for (int i = 0; i < iAScorers.Count; i++) {
-                scorersTotal = iAScorers[i].Compute();
+                //Debug.Log(iAScorers[i].scorer + " : " + iAScorers[i].Compute());
+                scorersTotal += iAScorers[i].Compute();
             }
+            //Debug.Log("// - " + scorersTotal);
             return scorersTotal;
         }
     }
