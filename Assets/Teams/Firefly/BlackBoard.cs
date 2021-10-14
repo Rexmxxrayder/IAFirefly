@@ -22,7 +22,10 @@ namespace FriedFly {
             MINE_NEAR,
             NEAR_CHECKPOINT_ENEMY,
             NEAR_CHECKPOINT_NEUTRAL,
-            AIMING_ENEMY_TRAJECTORY
+            AIMING_ENEMY_TRAJECTORY,
+            COUNTDOWN_MINE,
+            COUNTDOWN_SHOOT,
+            COUNTDOWN_SHOCKWAVE
         }
 
         public static BlackBoard Gino;

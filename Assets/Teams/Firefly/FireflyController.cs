@@ -144,6 +144,7 @@ namespace FriedFly {
             for (int i = 0; i < iaActions.Count; i++) {
                 float actionPriority = iaActions[i].Priority();
                 float actionFinalPriority = iaActions[i].finalPriority;
+                Debug.Log("Action Numero " + (i + 1) + " Score : " + actionPriority);
                 if (highestPriority < actionPriority || highestPriority == actionPriority && finalPriority < actionFinalPriority) {
                     highestPriority = actionPriority;
                     finalPriority = actionFinalPriority;
@@ -197,7 +198,7 @@ namespace FriedFly {
         #region ActionFunction
 
         public void Shoot(SpaceShipView spaceship, GameData data) {
-            inputData.shoot = true;
+                inputData.shoot = true;
         }
 
         public void LandMine(SpaceShipView spaceship, GameData data) {
@@ -300,6 +301,9 @@ namespace FriedFly {
             ValueUpdater += MINE_NEAR_UPDATER;
             ValueUpdater += NEAR_CHECKPOINT_ENEMY_UPDATER;
             ValueUpdater += NEAR_CHECKPOINT_NEUTRAL_UPDATER;
+            ValueUpdater += COUNTDOWN_MINE_UPDATER; 
+            ValueUpdater += COUNTDOWN_SHOOT_UPDATER;
+            ValueUpdater += COUNTDOWN_SHOCKWAVE_UPDATER;
         }
 
         void DISTANCE_TO_SHIP_UPDATER(SpaceShipView spaceship, GameData data) {
@@ -387,7 +391,10 @@ namespace FriedFly {
             hit = Physics2D.Raycast(data.GetSpaceShipForOwner(1 - spaceship.Owner).Position, distanceOtherSpaceShip, asteroidAndCheckPointMask);
             if (hit) {
                 if (hit.transform.CompareTag("WayPoint")) {
-                    BlackBoard.Gino.scores[BlackBoard.ScoreType.CHECKPOINT_BEHIND_ENNEMY] = 0;
+                    if (hit.transform.GetComponent<WayPoint>().Owner != data.GetSpaceShipForOwner(1 - spaceship.Owner).Owner) {
+                        BlackBoard.Gino.scores[BlackBoard.ScoreType.CHECKPOINT_BEHIND_ENNEMY] = 1;
+                        return;
+                    }
                 }
                 BlackBoard.Gino.scores[BlackBoard.ScoreType.CHECKPOINT_BEHIND_ENNEMY] = 1;
             }
@@ -483,6 +490,18 @@ namespace FriedFly {
             } else {
                 BlackBoard.Gino.scores[BlackBoard.ScoreType.AIMING_ENEMY_TRAJECTORY] = 0;
             }
+        }
+
+        void COUNTDOWN_MINE_UPDATER(SpaceShipView spaceship, GameData data) {
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_MINE] -= Time.deltaTime;
+        }
+
+        void COUNTDOWN_SHOOT_UPDATER(SpaceShipView spaceship, GameData data) {
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOOT] -= Time.deltaTime;
+        }
+
+        void COUNTDOWN_SHOCKWAVE_UPDATER(SpaceShipView spaceship, GameData data) {
+            BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOCKWAVE] -= Time.deltaTime;
         }
 
         #endregion
