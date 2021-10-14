@@ -65,12 +65,12 @@ namespace FriedFly {
                 inputData = new InputData(0f, spaceship.Orientation, false, false, Input.GetKeyDown(KeyCode.Space));
                 //BestActionToInvoke().onAction.Invoke();
                 //RushPoints();
-                //IAAction bestAction = BestActionToInvoke();
-                //for (int i = 0; i < bestAction.onAction.Count; i++) {
-                //    invokableDelegates[bestAction.onAction[i]](spaceship, data);
-                //    //BestActionToInvoke().onAction[i](spaceship, data);
-                //}
-                RushPoints(spaceship, data);
+                IAAction bestAction = BestActionToInvoke();
+                for (int i = 0; i < bestAction.onAction.Count; i++) {
+                    invokableDelegates[bestAction.onAction[i]](spaceship, data);
+                    //BestActionToInvoke().onAction[i](spaceship, data);
+                }
+                //RushPoints(spaceship, data);
                 //if (BlackBoard.Gino.scores[BlackBoard.ScoreType.AIMING_ENEMY_TRAJECTORY] == 1) {
                 //    Shoot(spaceship, data);
                 //}
@@ -115,7 +115,7 @@ namespace FriedFly {
             perp.Normalize();
             perp *= asteroid.Radius + spaceship.Radius + spaceship.Radius * 0.2f;
             Vector2 soluce = asteroid.Position + perp;
-            Debug.DrawLine(asteroid.Position, soluce, Color.red);
+            //Debug.DrawLine(asteroid.Position, soluce, Color.red);
             return soluce;
         }
 
@@ -142,7 +142,7 @@ namespace FriedFly {
         }
 
         IAAction BestActionToInvoke() {
-            int ActionToDo = 0;
+            int actionToDo = 0;
             float highestPriority = 0;
             float finalPriority = 0;
             for (int i = 0; i < iaActions.Count; i++) {
@@ -152,10 +152,11 @@ namespace FriedFly {
                 if (highestPriority < actionPriority || highestPriority == actionPriority && finalPriority < actionFinalPriority) {
                     highestPriority = actionPriority;
                     finalPriority = actionFinalPriority;
-                    ActionToDo = i;
+                    actionToDo = i;
                 }
             }
-            return iaActions[ActionToDo];
+            Debug.Log("/-> Action done : " + actionToDo);
+            return iaActions[actionToDo];
         }
 
         public AsteroidView GetClosestAsteroid(SpaceShipView spaceShip, List<AsteroidView> asteroids) {
