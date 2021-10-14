@@ -24,8 +24,8 @@ namespace FriedFly {
         // Variables updaters
         //private SpaceShipView spaceship;
         //private GameData data;
-        private bool isStun = false;
-        private bool isStunEnnemy = false;
+        [SerializeField] private bool isStun = false;
+        [SerializeField] private bool isStunEnnemy = false;
         private float timerTime;
         private float timerTimeEnnemy;
         private float timerValue = 0;
@@ -42,6 +42,7 @@ namespace FriedFly {
             InitializeActionInvokable();
             timerTime = spaceship.HitCountdown;
             timerTimeEnnemy = spaceship.HitCountdown;
+            Debug.Log(timerTimeEnnemy + " .. " + timerTime);
         }
 
         public override InputData UpdateInput(SpaceShipView spaceship, GameData data) {
@@ -328,39 +329,45 @@ namespace FriedFly {
             BlackBoard.Gino.scores[BlackBoard.ScoreType.ENERGY] = spaceship.Energy;
         }
 
-        void STUN_UPDATER(SpaceShipView spaceship, GameData data) {
+        void ENNEMY_STUN_UPDATER(SpaceShipView spaceship, GameData data) {
             if (hitCountEnnemy != data.GetSpaceShipForOwner(1 - spaceship.Owner).HitCount) {
                 isStun = true;
-                timerValue = timerTime;
+                timerValue = data.GetSpaceShipForOwner(1 - spaceship.Owner).HitCountdown;
+                hitCountEnnemy = data.GetSpaceShipForOwner(1 - spaceship.Owner).HitCount;
             }
+
             if (isStun) {
                 timerValue -= Time.deltaTime;
                 if (timerValue <= 0) {
                     isStun = false;
                 }
             }
+
             if (isStun) {
-                BlackBoard.Gino.scores[BlackBoard.ScoreType.STUN] = 1;
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_STUN] = 1;
             } else {
-                BlackBoard.Gino.scores[BlackBoard.ScoreType.STUN] = 0;
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_STUN] = 0;
             }
         }
 
-        void ENNEMY_STUN_UPDATER(SpaceShipView spaceship, GameData data) {
+        void STUN_UPDATER(SpaceShipView spaceship, GameData data) {
             if (hitCount != spaceship.HitCount) {
                 isStunEnnemy = true;
-                timerValueEnnemy = timerTimeEnnemy;
+                timerValueEnnemy = spaceship.HitCountdown;
+                hitCount = spaceship.HitCount;
             }
+
             if (isStunEnnemy) {
                 timerValueEnnemy -= Time.deltaTime;
                 if (timerValueEnnemy <= 0) {
                     isStunEnnemy = false;
                 }
             }
+
             if (isStunEnnemy) {
-                BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_STUN] = 1;
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.STUN] = 1;
             } else {
-                BlackBoard.Gino.scores[BlackBoard.ScoreType.ENNEMY_STUN] = 0;
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.STUN] = 0;
             }
         }
 
