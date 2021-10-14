@@ -42,7 +42,7 @@ MonoBehaviour:
       m_RotationOrder: 0
     scorer: 0
     valueBounds: {x: 0, y: 20}
-    scoreBounds: {x: 0, y: 0}
+    scoreBounds: {x: 300, y: 0}
   - animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -69,7 +69,7 @@ MonoBehaviour:
       m_RotationOrder: 0
     scorer: 6
     valueBounds: {x: 0, y: 1}
-    scoreBounds: {x: 0, y: 0}
+    scoreBounds: {x: 0, y: 300}
   - animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -96,7 +96,7 @@ MonoBehaviour:
       m_RotationOrder: 0
     scorer: 12
     valueBounds: {x: 0, y: 1}
-    scoreBounds: {x: 0, y: 0}
+    scoreBounds: {x: 0, y: 300}
   - animationCurve:
       serializedVersion: 2
       m_Curve:
@@ -123,5 +123,5 @@ MonoBehaviour:
       m_RotationOrder: 0
     scorer: 13
     valueBounds: {x: 0, y: 60}
-    scoreBounds: {x: 0, y: 0}
+    scoreBounds: {x: 0, y: 300}
   finalPriority: 3
