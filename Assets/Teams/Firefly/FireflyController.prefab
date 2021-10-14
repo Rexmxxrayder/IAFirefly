@@ -98,6 +98,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eaeb97848ee8813499a33ecec359dbd4, type: 2}
   - {fileID: 11400000, guid: aa6248b9c85647e40aef33412b4d75a4, type: 2}
   - {fileID: 11400000, guid: 0cb0ec9b9ccb3a244a077130b1ede8a1, type: 2}
+  - {fileID: 11400000, guid: 7ab8fe69ffdff36468452fadafa82cbe, type: 2}
+  - {fileID: 11400000, guid: 8c8f12ba3bb3e5340b45382388276f92, type: 2}
   isStun: 0
   isStunEnnemy: 0
   hitCount: 0
