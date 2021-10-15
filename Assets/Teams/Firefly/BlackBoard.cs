@@ -54,6 +54,7 @@ namespace FriedFly {
                 scores.Add(types[i], 0f);
             }
         }
+
         void ChangeScores() {
             for (int i = 0; i < variables.Count; i++) {
                 scores[types[i]] = variables[i];
