@@ -104,4 +104,4 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 0
     scoreBounds: {x: -100, y: 100}
-  finalPriority: 1
+  finalPriority: 9

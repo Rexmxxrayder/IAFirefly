@@ -76,7 +76,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    scoreBounds: {x: 0, y: -1000}
+    scoreBounds: {x: 0, y: -10000}
   - scorer: 8
     valueBounds: {x: 0, y: 1}
     animationCurve:
@@ -139,7 +139,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    scoreBounds: {x: -500, y: 0}
+    scoreBounds: {x: -10000, y: 0}
   - scorer: 3
     valueBounds: {x: 0, y: 1}
     animationCurve:
@@ -175,5 +175,5 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-    scoreBounds: {x: -10000, y: 0}
+    scoreBounds: {x: -1000, y: 0}
   finalPriority: 5
