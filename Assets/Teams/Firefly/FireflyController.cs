@@ -313,6 +313,7 @@ namespace FriedFly {
             ValueUpdater += COUNTDOWN_SHOOT_UPDATER;
             ValueUpdater += COUNTDOWN_SHOCKWAVE_UPDATER;
             ValueUpdater += AIMING_ENEMY_TRAJECTORY_UPDATER;
+            ValueUpdater += MINE_NEAR_SURVIVE_UPDATER;
             //ValueUpdater += IS_BULLET_BEHIND_US_UPDATER;
         }
 
@@ -447,6 +448,17 @@ namespace FriedFly {
                 BlackBoard.Gino.scores[BlackBoard.ScoreType.MINE_NEAR] = 1;
             } else {
                 BlackBoard.Gino.scores[BlackBoard.ScoreType.MINE_NEAR] = 0;
+            }
+        }
+
+        void MINE_NEAR_SURVIVE_UPDATER(SpaceShipView spaceship, GameData data) {
+            Collider2D[] hit;
+            hit = Physics2D.OverlapCircleAll(spaceship.Position, BlackBoard.Gino.radiusShockwave / 4f, MineMask);
+            Debug.DrawLine(spaceship.Position, spaceship.Position + Vector2.one * (BlackBoard.Gino.radiusShockwave / 4f), Color.red);
+            if (hit.Length > 0) {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.MINE_NEAR_SURVIVE] = 1;
+            } else {
+                BlackBoard.Gino.scores[BlackBoard.ScoreType.MINE_NEAR_SURVIVE] = 0;
             }
         }
 

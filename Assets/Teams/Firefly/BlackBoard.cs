@@ -26,7 +26,8 @@ namespace FriedFly {
             COUNTDOWN_MINE,
             COUNTDOWN_SHOOT,
             COUNTDOWN_SHOCKWAVE,
-            IS_BULLET_BEHIND_US
+            IS_BULLET_BEHIND_US,
+            MINE_NEAR_SURVIVE
         }
 
         public static BlackBoard Gino;
@@ -44,7 +45,7 @@ namespace FriedFly {
 
         private void Awake() {
             Gino = this;
-            seeVariables = new float[22];
+            seeVariables = new float[23];
             FillScores();
             SeeScores();
         }
