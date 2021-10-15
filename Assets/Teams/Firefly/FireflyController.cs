@@ -523,6 +523,7 @@ namespace FriedFly {
             //BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOCKWAVE] += Time.deltaTime;
             List<BulletView> bullets = data.Bullets;
             for (int i = 0; i < bullets.Count; i++) {
+                if (bullets[i] == null) { return; }
                 float distance = Vector2.Distance(bullets[i].Position, spaceship.Position);
                 if (distance < 1f) {
                     float angleToShip = Atan2(spaceship.Position - bullets[i].Position) % 360;
