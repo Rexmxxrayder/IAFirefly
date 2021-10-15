@@ -149,14 +149,12 @@ namespace FriedFly {
             for (int i = 0; i < iaActions.Count; i++) {
                 float actionPriority = iaActions[i].Priority();
                 float actionFinalPriority = iaActions[i].finalPriority;
-                Debug.LogWarning("// Action Numero " + (i + 1) + " Score : " + actionPriority);
                 if (highestPriority < actionPriority || highestPriority == actionPriority && finalPriority < actionFinalPriority) {
                     highestPriority = actionPriority;
                     finalPriority = actionFinalPriority;
                     actionToDo = i;
                 }
             }
-            Debug.LogWarning(" - ///-> Action done : " + (actionToDo + 1));
             return iaActions[actionToDo];
         }
 
@@ -341,6 +339,7 @@ namespace FriedFly {
 
         void ENNEMY_STUN_UPDATER(SpaceShipView spaceship, GameData data) {
             if (hitCountEnnemy != data.GetSpaceShipForOwner(1 - spaceship.Owner).HitCount) {
+                Debug.LogWarning("Je suis Sylvie ! Et ceci est l'oeuvre de Sylvie !");
                 isStun = true;
                 timerValue = data.GetSpaceShipForOwner(1 - spaceship.Owner).HitCountdown;
                 hitCountEnnemy = data.GetSpaceShipForOwner(1 - spaceship.Owner).HitCount;
@@ -362,6 +361,7 @@ namespace FriedFly {
 
         void STUN_UPDATER(SpaceShipView spaceship, GameData data) {
             if (hitCount != spaceship.HitCount) {
+                Debug.LogWarning("Ah, petit Sacripan, tu m'as bien eu");
                 isStunEnnemy = true;
                 timerValueEnnemy = spaceship.HitCountdown;
                 hitCount = spaceship.HitCount;
