@@ -6,7 +6,7 @@ namespace DoNotModify
 {
 	public class BulletView
     {
-		public BulletView(Bullet bullet) { bullet = _bullet; }
+		public BulletView(Bullet bullet) { _bullet = bullet; }
 		Bullet _bullet;
 
 		public Vector2 Position { get { return _bullet.Position; } }

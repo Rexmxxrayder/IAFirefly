@@ -314,7 +314,7 @@ namespace FriedFly {
             ValueUpdater += COUNTDOWN_SHOCKWAVE_UPDATER;
             ValueUpdater += AIMING_ENEMY_TRAJECTORY_UPDATER;
             ValueUpdater += MINE_NEAR_SURVIVE_UPDATER;
-            //ValueUpdater += IS_BULLET_BEHIND_US_UPDATER;
+            ValueUpdater += IS_BULLET_BEHIND_US_UPDATER;
         }
 
         void DISTANCE_TO_SHIP_UPDATER(SpaceShipView spaceship, GameData data) {
@@ -537,6 +537,7 @@ namespace FriedFly {
             if (bullets == null) { return; }
             for (int i = 0; i < bullets.Count; i++) {
                 if (bullets[i] == null) { continue; }
+                Debug.Log(bullets[i].Position);
                 float distance = Vector2.Distance(bullets[i].Position, spaceship.Position);
                 if (distance < 1f) {
                     float angleToShip = Atan2(spaceship.Position - bullets[i].Position) % 360;
