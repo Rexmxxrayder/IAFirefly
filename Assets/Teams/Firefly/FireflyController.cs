@@ -522,6 +522,7 @@ namespace FriedFly {
         void IS_BULLET_BEHIND_US_UPDATER(SpaceShipView spaceship, GameData data) {
             //BlackBoard.Gino.scores[BlackBoard.ScoreType.COUNTDOWN_SHOCKWAVE] += Time.deltaTime;
             List<BulletView> bullets = data.Bullets;
+            if (bullets == null) { return; }
             for (int i = 0; i < bullets.Count; i++) {
                 if (bullets[i] == null) { continue; }
                 float distance = Vector2.Distance(bullets[i].Position, spaceship.Position);
